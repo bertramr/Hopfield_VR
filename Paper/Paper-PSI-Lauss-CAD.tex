@@ -1,0 +1,70 @@
+\documentclass[11pt, a4paper, notitlepage]{report}
+\input{packages}
+
+\lstset{numbers=left, numberstyle=\tiny,numbersep=5pt} 
+\lstset{language=mathematica}
+\geometry{left=2.0cm, right=2.0cm, top=3.0cm, bottom=3.0cm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\parindent0mm
+
+
+\input{commands}
+
+\title{Cathodic Arc Deposition to produce Hydrogen Free DLC}
+\author{Vince Moens \\ 	
+{\it \large EPF Lausanne}\\
+\vspace{0.5cm}\\
+{\textbf{Assistant:} }\\
+{Dr. Bernhard Lauss}\\
+{Paul Scherrer Institute, Villigen}\\
+\\
+{\textbf{Supervised by:}}\\
+{Prof. Dr. Klaus Kirch, ETH Zurich}\\
+{Prof. Dr. Leonid Rivkin, EPF Lausanne}}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\vspace*{9 cm}
+\input{Abstract}
+
+\begin{comment}
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=0.1\textwidth]{EPFL_LOG_QUADRI_Red.eps}}
+\subfigure{\includegraphics[width=0.1\textwidth]{eth_logo_black.eps}}
+\subfigure{\includegraphics[width=0.1\textwidth]{logo.png}}
+\end{figure}
+\end{comment}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+
+\input{Introduction}
+\input{Theory}
+\input{Apparatus}
+\input{Results}
+\input{Conclusion}
+
+\newpage
+
+\listoffigures
+\addcontentsline{toc}{chapter}{List of Figures}
+\listoftables
+\addcontentsline{toc}{chapter}{List of Tables}
+
+\newpage
+
+\nocite*{}
+\bibliographystyle{alpha}
+\bibliography{bibliography}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+
+\end{document}
