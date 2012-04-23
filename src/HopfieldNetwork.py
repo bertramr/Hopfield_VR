@@ -15,7 +15,7 @@ class HopfieldNetwork:
 
         """
 
-    def create_pattern(self,P=1,ratio=0.5):
+    def create_pattern(self,P=5,ratio=0.5):
         self.P = P
         self.pattern = -ones((P,self.N),int)
 
@@ -29,7 +29,8 @@ class HopfieldNetwork:
         
         for i in range(self.N):
             for j in range(self.N):
-                self.weight[i,j] = 1./self.N * sum(self.pattern[mu, i] * self.pattern[mu,j] for mu in range(self.P))
+				if i != j:
+					self.weight[i,j] = 1./self.N * sum(self.pattern[mu, i] * self.pattern[mu,j] for mu in range(self.P))
         
     def set_init_state(self,mu,flip_ratio):
         self.x = copy(self.pattern[mu])
@@ -71,7 +72,7 @@ class HopfieldNetwork:
 
         return 1./self.N*sum(self.pattern[mu]*self.x)
 
-    def run(self,mu=0, flip_ratio=0.2):
+    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
         """
         DEFINITION
         runs the dynamics and plots it in an awesome way
@@ -90,7 +91,7 @@ class HopfieldNetwork:
      #   except:
  #           raise IndexError, 'pattern index too high'
         
-        self.create_pattern()
+        self.create_pattern(P, ratio)
         self.calc_weight()
         self.set_init_state(mu,flip_ratio)
 
@@ -115,7 +116,7 @@ class HopfieldNetwork:
 
         subplot(211)
         g1, = plot(t,energy,'k',lw=2)
-        axis([0,tmax,-self.N,self.N])
+        axis([0,tmax,0,-self.N*5])
         xlabel('time step')
         ylabel('energy')
 
