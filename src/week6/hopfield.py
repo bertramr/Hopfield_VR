@@ -1,4 +1,4 @@
-import Image
+∑import Image
 from copy import copy
 from time import sleep
 from pylab import *

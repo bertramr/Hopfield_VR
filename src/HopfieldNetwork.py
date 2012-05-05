@@ -7,45 +7,62 @@ class HopfieldNetwork:
     def __init__(self,N):
         self.N = N
         """
-        DEFINITION
-        initialization of the class
+            DEFINITION
+            initialization of the class
 
-        INPUT
-        N: size of the network, i.e. if N=10 it will consists of 10 pixels
+            INPUT
+            N: size of the network, i.e. if N=10 it will consists of 10 pixels
 
         """
 
     def create_pattern(self,P=5,ratio=0.5):
+        """
+            DEFINITION
+            creates P patterns where the ratio of -1 to 1 pixels is "ratio"
+            
+            INPUt
+            P: Number of patterns
+            ratio: ratio of 1/-1 pixels
+        """
+            
         self.P = P
-        self.pattern = -ones((P,self.N),int)
+        self.pattern = -ones((P,self.N),int) #creates an array of ones of length self.N and height P of type int
 
-        idx = int(ratio*self.N)
+        idx = int(ratio*self.N) #defines how many cells should be 1
         for i in range(P):
-            self.pattern[i,:idx] = 1
-            self.pattern[i] = permutation(self.pattern[i])
+            self.pattern[i,:idx] = 1 # sets the first idx cells to 1
+            self.pattern[i] = permutation(self.pattern[i]) #permutates the cells to create a random order ot 1 and -1 cells
 
     def calc_weight(self):
-        self.weight = zeros((self.N,self.N))
+        """
+            DEFINITION
+            creates a matrix with all the weights corresponsing to the pattern self.pattern
+        """
+        self.weight = zeros((self.N,self.N)) # primarily creates a matrix of self.N times self.N dimensions that will house all the weights. 
         
         for i in range(self.N):
             for j in range(self.N):
-				if i != j:
-					self.weight[i,j] = 1./self.N * sum(self.pattern[mu, i] * self.pattern[mu,j] for mu in range(self.P))
+				if i != j: # w_ii = 0 since all the weights add up symmetrically. 
+					self.weight[i,j] = 1./self.N * sum(self.pattern[mu, i] * self.pattern[mu,j] for mu in range(self.P)) # the weights are not calculated for each pattern separately, but once for all of them
         
     def set_init_state(self,mu,flip_ratio):
-        self.x = copy(self.pattern[mu])
-        flip = permutation(arange(self.N))
-        idx = int(self.N*flip_ratio)
-        self.x[flip[0:idx]] *= -1
-        self.t = [0]
-        overlap = [self.overlap(mu)]
+        self.x = copy(self.pattern[mu]) # duplicate pattern mu as test pattern and save it as self.x
+        flip = permutation(arange(self.N)) #create a random array of length self.N
+        idx = int(self.N*flip_ratio) # define how many elements should be flipped
+        self.x[flip[0:idx]] *= -1 # flip ids number of array
+        self.t = [0] #set the inital time step to 0
+        overlap = [self.overlap(mu)] # set the initial overlap to that of the pattern to iself
 
     def energy(self):
-        h = 0        
+        """
+            DEFINITION
+            calculates the energy function of the pattern at a given state
+        """
+        e = 0        
         for i in range(self.N):
             for j in range(self.N):
-                h = h + self.weight[i,j] * self.x[i] * self.x[j]
-        return -h
+                e = e + self.weight[i,j] * self.x[i] * self.x[j]
+        return -e
 
     def dynamic(self):
         """
@@ -156,5 +173,5 @@ class HopfieldNetwork:
                 break
             x_old = copy(self.x)
             sleep(0.5)
-        print 'pattern recovered in %i time steps with final overlap %.3f'%(i_fin,overlap[-1])
+        print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         show()
