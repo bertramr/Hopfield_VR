@@ -130,20 +130,21 @@ class HopfieldNetwork:
         imshow(self.grid(mu=mu),**plot_dic)
         axis('off')
         title('pattern %i'%mu)
-        '''       
+        '''  
 
-        #subplot(211)
-        #g1, = plot(t,energy,'k',lw=2)
-        #axis([0,tmax,0,-self.N*5])
-        #xlabel('time step')
-        #ylabel('energy')
+        subplot(211)
+        g1, = plot(t,energy,'k',lw=2)
+        axis([0,tmax,0,-self.N*5])
+        xlabel('time step')
+        ylabel('energy')
 
         # plot the time course of the overlap
-        #subplot(212)
-        #g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
-        #axis([0,tmax,-1,1])
-        #xlabel('time step')
-        #ylabel('overlap')
+        subplot(212)
+        g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
+        axis([0,tmax,-1,1])
+        xlabel('time step')
+        ylabel('overlap')
+        
         
         # this forces pylab to update and show the fig.
 
@@ -162,11 +163,11 @@ class HopfieldNetwork:
             energy.append(self.energy())
             
             # update the plotted data
-            #g1.set_data(t, energy)
-            #g2.set_data(t,overlap)
+            g1.set_data(t, energy)
+            g2.set_data(t,overlap)
             
             # update the figure so that we see the changes
-            #draw()
+            draw()
             
             # check the exit condition
             i_fin = i+1
