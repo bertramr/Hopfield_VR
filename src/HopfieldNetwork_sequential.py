@@ -1,5 +1,5 @@
 from pylab import *
-from numpy import dot
+from numpy import *
 from copy import copy
 from time import sleep
 tmax = 20
@@ -73,7 +73,7 @@ class HopfieldNetwork:
         -L.Ziegler 03.2009.
         """
 
-        h = sum(self.weight*self.x,axis=1)[i]
+        h = sum(self.weight*self.x,axis=1)
         self.x = sign(h)
     
     def dynamic_seq(self,j):
@@ -85,7 +85,13 @@ class HopfieldNetwork:
             for loop is required for i
             
         """
-        self.x[j] = sign(sum(self.weight*self.x,axis=1)[j])
+        """
+           if sum(self.weight*self.x,axis=1)[j] == 0:
+            self.x[j] = 1
+        else:
+        """
+        h=sum(self.weight*self.x,axis=1)[j]
+        self.x[j]=h
     
     def overlap(self,mu=0):
         """
@@ -178,7 +184,7 @@ class HopfieldNetwork:
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
                 energy.append(self.energy())
-            t.append(range(i+1./self.N,i+1,1./self.N)
+            t.append(arange(i+1./self.N,i+1,1./self.N))
             
             # update the plotted data
             g1.set_data(t,energy)
