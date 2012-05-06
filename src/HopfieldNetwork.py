@@ -1,4 +1,5 @@
 from pylab import *
+from numpy import dot
 from copy import copy
 from time import sleep
 tmax = 20
@@ -87,7 +88,7 @@ class HopfieldNetwork:
         -L.Ziegler 03.2009.
         """
 
-        return 1./self.N*sum(self.pattern[mu]*self.x)
+        return dot(self.pattern[mu],self.x)/self.N
 
     def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
         """
@@ -116,7 +117,7 @@ class HopfieldNetwork:
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
         # prepare the figure
-        figure()
+        #figure()
         '''
         # plot the current network state
         subplot(221)
@@ -131,23 +132,23 @@ class HopfieldNetwork:
         title('pattern %i'%mu)
         '''       
 
-        subplot(211)
-        g1, = plot(t,energy,'k',lw=2)
-        axis([0,tmax,0,-self.N*5])
-        xlabel('time step')
-        ylabel('energy')
+        #subplot(211)
+        #g1, = plot(t,energy,'k',lw=2)
+        #axis([0,tmax,0,-self.N*5])
+        #xlabel('time step')
+        #ylabel('energy')
 
         # plot the time course of the overlap
-        subplot(212)
-        g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
-        axis([0,tmax,-1,1])
-        xlabel('time step')
-        ylabel('overlap')
+        #subplot(212)
+        #g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
+        #axis([0,tmax,-1,1])
+        #xlabel('time step')
+        #ylabel('overlap')
         
         # this forces pylab to update and show the fig.
 
 
-        draw()
+        #draw()
         
         x_old = copy(self.x)
         
@@ -161,17 +162,18 @@ class HopfieldNetwork:
             energy.append(self.energy())
             
             # update the plotted data
-            g1.set_data(t, energy)
-            g2.set_data(t,overlap)
+            #g1.set_data(t, energy)
+            #g2.set_data(t,overlap)
             
             # update the figure so that we see the changes
-            draw()
+            #draw()
             
             # check the exit condition
             i_fin = i+1
             if sum(abs(x_old-self.x))==0:
                 break
             x_old = copy(self.x)
-            sleep(0.5)
+            #sleep(0.5)
         print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         show()
+        return overlap[-1]
