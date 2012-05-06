@@ -165,7 +165,7 @@ class HopfieldNetwork:
         # this forces pylab to update and show the fig.
 
 
-        #draw()
+        draw()
         
         x_old = copy(self.x)
         
@@ -184,7 +184,11 @@ class HopfieldNetwork:
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
                 energy.append(self.energy())
-            t.append(arange(i+1./self.N,i+1,1./self.N))
+                t.append(i+divide(j,float(self.N)))
+            
+            print overlap
+            print energy
+            print t
             
             # update the plotted data
             g1.set_data(t,energy)
