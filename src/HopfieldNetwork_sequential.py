@@ -90,8 +90,10 @@ class HopfieldNetwork:
             self.x[j] = 1
         else:
         """
-        h=sum(self.weight*self.x,axis=1)[j]
-        self.x[j]=h
+        if sum(self.weight*self.x,axis=1)[j]==0:
+            self.x[j]=1
+        else:
+            self.x[j]=sign(sum(self.weight*self.x,axis=1)[j])
     
     def overlap(self,mu=0):
         """
@@ -104,7 +106,7 @@ class HopfieldNetwork:
         -L.Ziegler 03.2009.
         """
 
-        return dot(self.pattern[mu],self.x)/self.N
+        return dot(self.pattern[mu],self.x)/float(self.N)
 
     def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
         """
@@ -150,14 +152,14 @@ class HopfieldNetwork:
 
         subplot(211)
         g1, = plot(t,energy,'k',lw=2)
-        axis([0,tmax,0,-self.N*5])
+        axis([0,2,0,-self.N*5])
         xlabel('time step')
         ylabel('energy')
 
         # plot the time course of the overlap
         subplot(212)
         g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
-        axis([0,tmax,-1,1])
+        axis([0,2,-1,1])
         xlabel('time step')
         ylabel('overlap')
         
@@ -186,9 +188,9 @@ class HopfieldNetwork:
                 energy.append(self.energy())
                 t.append(i+divide(j,float(self.N)))
             
-            print overlap
-            print energy
-            print t
+            #print overlap
+            #print energy
+            #print t
             
             # update the plotted data
             g1.set_data(t,energy)
