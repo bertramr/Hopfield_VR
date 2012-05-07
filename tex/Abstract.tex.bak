@@ -1,0 +1,3 @@
+\begin{abstract}
+In this report we will analyse how the storage capacity of a Hopfield Network changes when the Hebbian weight matrices is altered so that reciprocal connections are no longer symmetric. Furthermore Dale's law is considered, stating that synaptic connections to postsynaptic neurons are either of the excitatory or inhibitory type, never both. This makes the network more realistic.
+\end{abstract}

@@ -1,0 +1,46 @@
+\documentclass[11pt, a4paper, notitlepage]{article}
+\input{packages}
+
+\lstset{numbers=left, numberstyle=\tiny,numbersep=5pt} 
+\lstset{language=mathematica}
+\geometry{left=2.0cm, right=2.0cm, top=3.0cm, bottom=3.0cm}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\parindent0mm
+
+
+\input{commands}
+
+\title{Miniproject: Robustness of storage capacity in more realistic Hopfield networks}
+\author{Reinhold Bertram \\ 
+Vince Moens \\ 	
+{\it \large EPF Lausanne}\\
+\vspace{0.5cm}\\
+{\textbf{Assistant:} }\\
+{Alex Seeholzer}\\
+\\
+{\textbf{Supervised by:}}\\
+{Prof. Wulfram Gerstner, EPF Lausanne}
+}
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\vspace*{7.5 cm}
+\input{Abstract}
+
+\begin{figure}
+\centering
+\subfigure{\includegraphics[width=0.2\textwidth]{EPFL_LOG_QUADRI_Red.eps}}
+\end{figure}
+
+\newpage
+\pagenumbering{arabic}
+\tableofcontents
+\newpage
+
+\input{Introduction}
+
+\end{document}
