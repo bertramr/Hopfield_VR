@@ -182,11 +182,13 @@ class HopfieldNetwork:
             """
             
             #update each field sequentially
-            for j in range(self.N):
+            s=1
+            for j in permutation(range(self.N)):
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
                 energy.append(self.energy())
-                t.append(i+divide(j,float(self.N)))
+                t.append(i+divide(s,float(self.N)))
+                s+=1
             
             #print overlap
             #print energy
