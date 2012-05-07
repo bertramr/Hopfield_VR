@@ -5,3 +5,5 @@
 *.pyc
 main.pdf
 *~
+tex/main.synctex.gz
+

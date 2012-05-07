@@ -33,7 +33,7 @@ When analysing just one pattern $\xi_i$, the stable condition becomes very simpl
 \begin{equation}
 sgn\left( \sum_j^N \omega_{ij} \xi_j \right) = \xi_j, \quad	\forall i
 \end{equation}
-This is clearly the case for all $\omega_{ij}=\frac{1}{N} \xi_i \xi_j$. Thsi formalism clearly retains the insensitivity of the Hopfield Network to minor errors in the pattern, since even if some pixels are wrong, as long as it is less then half the pixels, equation \ref{eq: sequential dynamics} will still give the correct result and produce $\xi_i$. $\xi_i$ is therefore called an \textbf{attractor}. For each attractor there must be a second attractor called the \textbf{reversed state} $-\sigma$, which is reached when more than half of the pixels are faulty. 
+This is clearly the case for all $\omega_{ij}=\frac{1}{N} \xi_i \xi_j$. This formalism clearly retains the insensitivity of the Hopfield Network to minor errors in the pattern, since even if some pixels are wrong, as long as it is less then half the pixels, equation \ref{eq: sequential dynamics} will still give the correct result and produce $\xi_i$. $\xi_i$ is therefore called an \textbf{attractor}. For each attractor there must be a second attractor called the \textbf{reversed state} $-\sigma$, which is reached when more than half of the pixels are faulty. 
 When trying to recall the most similar pattern out of several patterns, we can define the weights as a superposition of the individual weights for $p$ patterns:
 \begin{equation}
 \omega_{ij}=\frac{1}{N} \sum_{mu=1}^p \xi_i^\mu \xi_j^\mu
