@@ -12,14 +12,16 @@ class HopfieldNetwork:
             initialization of the class
 
             INPUT
-            N: size of the network, i.e. if N=10 it will consists of 10 pixels
+            N: size of the network, i.e. if N=10 
+            it will consists of 10 pixels
 
         """
 
     def create_pattern(self,P=5,ratio=0.5):
         """
             DEFINITION
-            creates P patterns where the ratio of -1 to 1 pixels is "ratio"
+            creates P patterns where the ratio of -1 to 1 
+            pixels is "ratio"
             
             INPUt
             P: Number of patterns
@@ -27,32 +29,62 @@ class HopfieldNetwork:
         """
             
         self.P = P
-        self.pattern = -ones((P,self.N),int) #creates an array of ones of length self.N and height P of type int
 
-        idx = int(ratio*self.N) #defines how many cells should be 1
+        #creates an array of ones of length self.N and 
+        #height P of type int
+        self.pattern = -ones((P,self.N),int) 
+        
+        #defines how many cells should be 1
+        idx = int(ratio*self.N) 
+        
         for i in range(P):
-            self.pattern[i,:idx] = 1 # sets the first idx cells to 1
-            self.pattern[i] = permutation(self.pattern[i]) #permutates the cells to create a random order ot 1 and -1 cells
+            # sets the first idx cells to 1
+            self.pattern[i,:idx] = 1 
+
+            #permutates the cells to create
+            # a random order ot 1 and -1 cells
+            self.pattern[i] = permutation(self.pattern[i]) 
 
     def calc_weight(self):
         """
             DEFINITION
-            creates a matrix with all the weights corresponsing to the pattern self.pattern
+            creates a matrix with all the weights
+            corresponsing to the pattern self.pattern
         """
-        self.weight = zeros((self.N,self.N)) # primarily creates a matrix of self.N times self.N dimensions that will house all the weights. 
+        # primarily creates a matrix of self.N times self.N 
+        # dimensions that will house all the weights. 
+        self.weight = zeros((self.N,self.N)) 
         
         for i in range(self.N):
             for j in range(self.N):
-				if i != j: # w_ii = 0 since all the weights add up symmetrically. 
-					self.weight[i,j] = 1./self.N * sum(self.pattern[mu, i] * self.pattern[mu,j] for mu in range(self.P)) # the weights are not calculated for each pattern separately, but once for all of them
+                # w_ii = 0 since all the weights add up
+                # symmetrically. 
+				if i != j: 
+                    # the weights are not calculated for each
+                    # pattern separately, but once for all of them
+					self.weight[i,j] = \
+                                                1./self.N \
+                                                * sum(self.pattern[mu, i]\
+                                                * self.pattern[mu,j] \
+                                                for mu in range(self.P)) 
         
     def set_init_state(self,mu,flip_ratio):
-        self.x = copy(self.pattern[mu]) # duplicate pattern mu as test pattern and save it as self.x
-        flip = permutation(arange(self.N)) #create a random array of length self.N
-        idx = int(self.N*flip_ratio) # define how many elements should be flipped
-        self.x[flip[0:idx]] *= -1 # flip ids number of array
-        self.t = [0] #set the inital time step to 0
-        overlap = [self.overlap(mu)] # set the initial overlap to that of the pattern to iself
+        # duplicate pattern mu as test pattern and save it as self.x
+        self.x = copy(self.pattern[mu]) 
+        
+        # create a random array of length self.N
+        flip = permutation(arange(self.N))
+        
+        # define how many elements should be flipped
+        idx = int(self.N*flip_ratio) 
+
+        # flip ids number of array
+        self.x[flip[0:idx]] *= -1 
+
+        #set the inital time step to 0  
+        self.t = [0] 
+        # set the initial overlap to that of the pattern to iself
+        overlap = [self.overlap(mu)] 
 
     def energy(self):
         """
@@ -67,10 +99,8 @@ class HopfieldNetwork:
 
     def dynamic(self):
         """
-        DEFINITION
-        executes one step of the dynamics
-
-        -L.Ziegler 03.2009.
+            DEFINITION
+            executes one step of the dynamics
         """
 
         h = sum(self.weight*self.x,axis=1)
@@ -79,17 +109,14 @@ class HopfieldNetwork:
     def dynamic_seq(self,j):
         """
             DEFINITION
-            flips one pixel after the other and increases the timestep once all pixels have been flipped
+            flips one pixel after the other and increases the
+            timestep once all pixels have been flipped
             
             CONDITION
             for loop is required for i
             
         """
-        """
-           if sum(self.weight*self.x,axis=1)[j] == 0:
-            self.x[j] = 1
-        else:
-        """
+
         if sum(self.weight*self.x,axis=1)[j]==0:
             self.x[j]=1
         else:
@@ -103,7 +130,6 @@ class HopfieldNetwork:
         INPUT
         mu: the index of the pattern to compare with the test pattern
 
-        -L.Ziegler 03.2009.
         """
 
         return dot(self.pattern[mu],self.x)/float(self.N)
@@ -122,11 +148,6 @@ class HopfieldNetwork:
         -N.Fremaux 03.2010.
         """
         
-      #  try:
-     #       self.pattern[mu]
-     #   except:
- #           raise IndexError, 'pattern index too high'
-        
         self.create_pattern(P, ratio)
         self.calc_weight()
         self.set_init_state(mu,flip_ratio)
@@ -134,23 +155,12 @@ class HopfieldNetwork:
         t = [0]
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
+
         # prepare the figure
-        #figure()
-        '''
-        # plot the current network state
-        subplot(221)
-        g1 = imshow(self.grid(),**plot_dic)# we keep a handle to the image
-        axis('off')
-        title('x')
-        
-        # plot the target pattern
-        subplot(222)
-        imshow(self.grid(mu=mu),**plot_dic)
-        axis('off')
-        title('pattern %i'%mu)
-        '''  
+        figure()
 
         subplot(211)
+        # we keep a handle to the image
         g1, = plot(t,energy,'k',lw=2)
         axis([0,2,0,-self.N*5])
         xlabel('time step')
@@ -158,19 +168,16 @@ class HopfieldNetwork:
 
         # plot the time course of the overlap
         subplot(212)
-        g2, = plot(t,overlap,'k',lw=2) # we keep a handle to the curve
+        # we keep a handle to the curve
+        g2, = plot(t,overlap,'k',lw=2) 
         axis([0,2,-1,1])
         xlabel('time step')
         ylabel('overlap')
         
-        
         # this forces pylab to update and show the fig.
-
-
         draw()
         
         x_old = copy(self.x)
-        
         
         for i in range(tmax):
             """
@@ -189,10 +196,6 @@ class HopfieldNetwork:
                 energy.append(self.energy())
                 t.append(i+divide(s,float(self.N)))
                 s+=1
-            
-            #print overlap
-            #print energy
-            #print t
             
             # update the plotted data
             g1.set_data(t,energy)
