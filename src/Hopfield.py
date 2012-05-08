@@ -57,7 +57,7 @@ class HopfieldNetwork:
         self.x=np.zeros((1,self.N))
         
         # duplicate pattern mu as test pattern and save it as self.
-        xself.x[0,:] = self.pattern[mu,:]
+        self.x[0,:] = self.pattern[mu,:]
 
         #create a random array of length self.N
         flip = permutation(arange(self.N))   
