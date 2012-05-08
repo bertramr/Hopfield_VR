@@ -51,60 +51,36 @@ class HopfieldNetwork:
             creates a matrix with all the weights
             corresponsing to the pattern self.pattern
         """
-        # primarily creates a matrix of self.N times self.N 
-        # dimensions that will house all the weights. 
-        self.weight = zeros((self.N,self.N)) 
-        
-        for i in range(self.N):
-            for j in range(self.N):
-                # w_ii = 0 since all the weights add up
-                # symmetrically. 
-				if i != j: 
-                    # the weights are not calculated for each
-                    # pattern separately, but once for all of them
-					self.weight[i,j] = \
-                                                1./self.N \
-                                                * sum(self.pattern[mu, i]\
-                                                * self.pattern[mu,j] \
-                                                for mu in range(self.P)) 
+        self.weight=1./self.N*np.dot((self.pattern[:,:]).T,self.pattern[:,:])
         
     def set_init_state(self,mu,flip_ratio):
-        # duplicate pattern mu as test pattern and save it as self.x
-        self.x = copy(self.pattern[mu]) 
+        self.x=np.zeros((1,self.N))
         
-        # create a random array of length self.N
-        flip = permutation(arange(self.N))
-        
+        # duplicate pattern mu as test pattern and save it as self.
+        xself.x[0,:] = self.pattern[mu,:]
+
+        #create a random array of length self.N
+        flip = permutation(arange(self.N))   
+
         # define how many elements should be flipped
         idx = int(self.N*flip_ratio) 
-
+        
         # flip ids number of array
-        self.x[flip[0:idx]] *= -1 
+        self.x[0,flip[0:idx]] *= -1         
 
-        #set the inital time step to 0  
-        self.t = [0] 
+        #set the inital time step to 0
+        self.t = [0]         
+        
         # set the initial overlap to that of the pattern to iself
-        overlap = [self.overlap(mu)] 
+        overlap = [self.overlap(mu)]     
 
     def energy(self):
         """
             DEFINITION
             calculates the energy function of the pattern at a given state
         """
-        e = 0        
-        for i in range(self.N):
-            for j in range(self.N):
-                e = e + self.weight[i,j] * self.x[i] * self.x[j]
-        return -e
-
-    def dynamic(self):
-        """
-            DEFINITION
-            executes one step of the dynamics
-        """
-
-        h = sum(self.weight*self.x,axis=1)
-        self.x = sign(h)
+        e=-np.dot(self.x,np.dot(self.weight,(self.x).T))
+        return e[0,0]
     
     def dynamic_seq(self,j):
         """
@@ -117,36 +93,17 @@ class HopfieldNetwork:
             
         """
 
-        if sum(self.weight*self.x,axis=1)[j]==0:
-            self.x[j]=1
+        if sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])==0:
+            self.x[0,j]=1
         else:
-            self.x[j]=sign(sum(self.weight*self.x,axis=1)[j])
+            self.x[0,j]=sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])
     
     def overlap(self,mu=0):
-        """
-        DEFINITION
-        computes the overlap of the test pattern with pattern nb mu
-
-        INPUT
-        mu: the index of the pattern to compare with the test pattern
-
-        """
-
-        return dot(self.pattern[mu],self.x)/float(self.N)
+        
+        return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
 
     def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
-        """
-        DEFINITION
-        runs the dynamics and plots it in an awesome way
-        
-        INPUT
-        mu: pattern number to use as test pattern
-        flip_ratio: ratio of flipped pixels
-                    ex. for pattern nb 5 with 5% flipped pixels use run(mu=5,flip_ratio=0.05)
-        
-        -L.Ziegler 03.2009.
-        -N.Fremaux 03.2010.
-        """
+        clf()
         
         self.create_pattern(P, ratio)
         self.calc_weight()
@@ -163,6 +120,7 @@ class HopfieldNetwork:
         # we keep a handle to the image
         g1, = plot(t,energy,'k',lw=2)
         axis([0,2,0,-self.N*5])
+
         xlabel('time step')
         ylabel('energy')
 
@@ -210,6 +168,6 @@ class HopfieldNetwork:
                 break
             x_old = copy(self.x)
             #sleep(0.5)
-        print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
-        show()
+                #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
+                #show()
         return overlap[-1]

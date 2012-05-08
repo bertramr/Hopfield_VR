@@ -1,4 +1,4 @@
-\section{Introduction}
+		\section{Introduction}
 
 Hopfield Networks were invented by John Hopfield in 1982 under the name of \textit{associative neural network}. They are content addressable binary memory systems that are insensitive to small errors used to model associative memory problems: 
 \begin{quote}
@@ -14,11 +14,7 @@ Hopfield Networks were invented by John Hopfield in 1982 under the name of \text
 \end{comment}
 
 
-
-The standard approach to the Hopfield Network includes the use of Hebbian type correlations between pixels. When analyzing one pattern, 
-
-
-In order to facilitate the mathematical computation, the basis of the binary system is changed from a $\{0,1\}$ base to a $\{-1,1\}$ base, where $-1$ represents a firing neuron. We furthermore denote the pixels by $S_i$ and there correlations by $\omega_{ij}$. The dynamics of the Hopfield Network are then given by:
+In order to facilitate the mathematical computation, the basis of the binary system is changed from a $\{0,1\}$ base to a $\{-1,1\}$ base, where $-1$ represents a firing neuron. We furthermore denote the pixels by $S_i$ and there correlations by $\omega_{ij}$. The dynamics of the Network are then given by:
 \begin{equation}
 S_i := sign \left( \sum_j \omega_{ij} S_j \right)
 \label{eq: sequential dynamics}
@@ -33,9 +29,15 @@ When analysing just one pattern $\xi_i$, the stable condition becomes very simpl
 \begin{equation}
 sgn\left( \sum_j^N \omega_{ij} \xi_j \right) = \xi_j, \quad	\forall i
 \end{equation}
+
 This is clearly the case for all $\omega_{ij}=\frac{1}{N} \xi_i \xi_j$. This formalism clearly retains the insensitivity of the Hopfield Network to minor errors in the pattern, since even if some pixels are wrong, as long as it is less then half the pixels, equation \ref{eq: sequential dynamics} will still give the correct result and produce $\xi_i$. $\xi_i$ is therefore called an \textbf{attractor}. For each attractor there must be a second attractor called the \textbf{reversed state} $-\sigma$, which is reached when more than half of the pixels are faulty. 
+
 When trying to recall the most similar pattern out of several patterns, we can define the weights as a superposition of the individual weights for $p$ patterns:
 \begin{equation}
 \omega_{ij}=\frac{1}{N} \sum_{mu=1}^p \xi_i^\mu \xi_j^\mu
 \end{equation}
+This weight matrix is often called the "Hebb rule" or "generalized Hebb rule" \citep{Polk:2002fk}. Networks using this weight system with binary units and asynchronous updating is called a Hopfield Network. 
+
+\subsection{Crosstalk Term}
+
 
