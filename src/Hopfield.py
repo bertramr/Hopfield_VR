@@ -102,7 +102,7 @@ class HopfieldNetwork:
         
         return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
 
-    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
+    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2, bPlot=True):
         
         self.create_pattern(P, ratio)
         self.calc_weight()
@@ -112,27 +112,28 @@ class HopfieldNetwork:
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
 
-        # prepare the figure
-        figure()
+        if bPlot:
+            # prepare the figure
+            figure()
 
-        subplot(211)
-        # we keep a handle to the image
-        g1, = plot(t,energy,'k',lw=2)
-        axis([0,2,0,-self.N*5])
+            subplot(211)
+            # we keep a handle to the image
+            g1, = plot(t,energy,'k',lw=2)
+            axis([0,2,0,-self.N*5])
 
-        xlabel('time step')
-        ylabel('energy')
+            xlabel('time step')
+            ylabel('energy')
 
-        # plot the time course of the overlap
-        subplot(212)
-        # we keep a handle to the curve
-        g2, = plot(t,overlap,'k',lw=2) 
-        axis([0,2,-1,1])
-        xlabel('time step')
-        ylabel('overlap')
+            # plot the time course of the overlap
+            subplot(212)
+            # we keep a handle to the curve
+            g2, = plot(t,overlap,'k',lw=2) 
+            axis([0,2,-1,1])
+            xlabel('time step')
+            ylabel('overlap')
         
-        # this forces pylab to update and show the fig.
-        draw()
+            # this forces pylab to update and show the fig.
+            draw()
         
         x_old = copy(self.x)
         
@@ -154,12 +155,13 @@ class HopfieldNetwork:
                 t.append(i+divide(s,float(self.N)))
                 s+=1
             
-            # update the plotted data
-            g1.set_data(t,energy)
-            g2.set_data(t,overlap)
+            if bPlot:
+                # update the plotted data
+                g1.set_data(t,energy)
+                g2.set_data(t,overlap)
             
-            # update the figure so that we see the changes
-            draw()
+                # update the figure so that we see the changes
+                draw()
             
             # check the exit condition
             i_fin = i+1
@@ -169,7 +171,10 @@ class HopfieldNetwork:
             #sleep(0.5)
                 #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         
-        show()
-        savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
-        close()
+        if bPlot:
+            show()
+            savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
+            close()
+
         return overlap[-1]
+
