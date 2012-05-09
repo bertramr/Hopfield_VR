@@ -1,7 +1,7 @@
 from pylab import *
 from numpy import *
 from copy import copy
-from time import sleep
+from time import sleep, strftime
 tmax = 20
 
 class HopfieldNetwork:
@@ -114,7 +114,7 @@ class HopfieldNetwork:
         energy = [self.energy()]
 
         # prepare the figure
-        figure()
+        figure_handle = figure()
 
         subplot(211)
         # we keep a handle to the image
@@ -169,5 +169,8 @@ class HopfieldNetwork:
             x_old = copy(self.x)
             #sleep(0.5)
                 #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
-                #show()
+        
+        show()
+        savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
+        close(figure_handle)
         return overlap[-1]
