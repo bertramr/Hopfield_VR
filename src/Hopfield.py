@@ -103,7 +103,6 @@ class HopfieldNetwork:
         return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
 
     def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
-        clf()
         
         self.create_pattern(P, ratio)
         self.calc_weight()
@@ -114,7 +113,7 @@ class HopfieldNetwork:
         energy = [self.energy()]
 
         # prepare the figure
-        figure_handle = figure()
+        figure()
 
         subplot(211)
         # we keep a handle to the image
@@ -172,5 +171,5 @@ class HopfieldNetwork:
         
         show()
         savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
-        close(figure_handle)
+        close()
         return overlap[-1]
