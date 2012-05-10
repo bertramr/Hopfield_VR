@@ -2,7 +2,7 @@ from Hopfield import HopfieldNetwork
 from pylab import *
 from numpy import random, dot, max, min, divide
 
-def exercise1_3():
+def exercise1_3(N=200,P=50,tests=2):
     '''
     Set N = 200 and c = 0.1. Plot the mean retrieval error of 
     a randomly chosen pattern averaged
@@ -18,9 +18,7 @@ def exercise1_3():
     '''
     
     print "Exercise 1.3:"
-    h = HopfieldNetwork(N=200)
-    P = 50;
-    tests = 10
+    h = HopfieldNetwork(N)
     error = zeros((P,tests),float)
     for p in range(P):
         for q in range(tests):
@@ -34,8 +32,20 @@ def exercise1_3():
     max_error = max(error,axis=1)
     min_error = min(error,axis=1)
         
-    figure()
-    boxplot(transpose(error))
+    fig = figure()
+    ax1 = fig.add_subplot(111)
+    lp = plot(range(1,P+1),divide(sum(error,axis=1),tests))
+    bp = boxplot(transpose(error))
+    
+    xticks(arange(0,P+1,P/10))
+    setp(lp,color='black')
+
+    ax1.set_ylim(0,1.1)
+    ax1.yaxis.grid(True,linestyle='-',which='major',color='lightgray',alpha=0.5)
+    ax1.set_axisbelow(True)
+    ax1.set_title('Mean retrieval error over different network realizations (N=%d, tests=%d)'%(N,tests))
+    ax1.set_ylabel('Mean retrieval error')
+    ax1.set_xlabel('Dictonary size P')
     savefig('../tex/img/plots/error-avg-%d.png' % tests)
     close()
 
