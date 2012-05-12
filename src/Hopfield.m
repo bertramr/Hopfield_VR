@@ -66,7 +66,12 @@ classdef Hopfield
         
         function overlap = get.overlap(obj)
             
-            overlap =   sum(obj.pattern .* repmat(obj.x,obj.P,1),2) / obj.N;
+            % Alte Formulierung im Intervall [-1 1]
+            %overlap =   sum(obj.pattern .* repmat(obj.x,obj.P,1),2) / obj.N;
+            
+            % Umwandlung (overlap + 1)*1/2
+            % Im Intervall [0 1] entspricht Prozent
+            overlap =  sum(obj.pattern == repmat(obj.x,obj.P,1),2) / obj.N;
         end
         
         function energy = get.energy(obj)
