@@ -4,6 +4,7 @@ classdef Hopfield
         P
         pattern
         weight
+        weight2
         x
         
         tmax
@@ -23,35 +24,32 @@ classdef Hopfield
         function obj = create_pattern(obj, P, ratio)
             obj.P = P;
             idx = ceil(ratio * obj.N);
-            obj.pattern = -ones(P,obj.N);
-            obj.pattern(:,1:idx) = 1;
-            perm = zeros(P,obj.N);
+            obj.pattern = [-ones(P,idx) ones(P,obj.N-idx)];
+            
+            
             for i = 1:P
-                perm(i,:) = randperm(obj.N);
+                perm = randperm(obj.N);
+                obj.pattern(i,:) = obj.pattern(i,perm);
             end
-            obj.pattern(perm) = obj.pattern;
+            
         end
         
         function obj = calc_weight(obj)
             obj.weight = zeros(obj.N);
             
-            for i = 1:obj.N
-                for j = 1:obj.N
-                    if i ~= j
-                        obj.weight(i,j) = 1/obj.N * ...
-                            sum(obj.pattern(:,i) .* obj.pattern(:,j));
-                    end
-                end
+            for p = 1:obj.P
+                obj.weight = obj.weight + 1/obj.N * obj.pattern(p,:)' * obj.pattern(p,:);
             end
-            
+            obj.weight(logical(eye(obj.N))) = 0;
         end
         
         function obj = set_init_state(obj,mu,flip_ratio)
             obj.x = obj.pattern(mu,:);
             
-            flip = rand(1,obj.N) <= flip_ratio;
+            idx = ceil(flip_ratio * obj.N);
+            flip = [-ones(1,idx) ones(1,obj.N-idx)];
             
-            flip = -ones(1,obj.N) .* flip + ones(1,obj.N) .* ~flip;
+            flip = flip(randperm(obj.N));
             
             obj.x = obj.x .* flip;
         end
@@ -68,17 +66,11 @@ classdef Hopfield
         
         function overlap = get.overlap(obj)
             
-            overlap =   obj.pattern .* repmat(obj.x,obj.P,1) / obj.N;
+            overlap =   sum(obj.pattern .* repmat(obj.x,obj.P,1),2) / obj.N;
         end
         
         function energy = get.energy(obj)
-            e = 0;
-            for i = 1:obj.N
-                for j = 1:obj.N
-                    e = e + obj.weight(i,j) * obj.x(i) * obj.x(j);
-                end
-            end
-            energy = -e;
+            energy = - sum(sum(obj.weight .* (obj.x' * obj.x)));
         end
         
         function obj = run(obj, P, ratio, mu, flip_ratio)
@@ -92,11 +84,18 @@ classdef Hopfield
             
             c = 1;
             for t = 1:obj.tmax
-                for n = 1:obj.N
+                x_old = obj.x;
+                for n = randperm(obj.N)
                     obj = obj.dynamic(n);
                     energy(c) = obj.energy;
                     overlap(c) = obj.overlap(mu);
                     c = c+1;
+                end
+                if x_old == obj.x;
+                    energy = energy(1:c-1);
+                    overlap = overlap(1:c-1);
+                    time = time(1:c-1);
+                    break;
                 end
             end
             
