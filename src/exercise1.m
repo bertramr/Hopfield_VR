@@ -47,8 +47,8 @@ h = Hopfield(N);
 flip_ratio = 0.1;
 ratio = 0.5;
 
-P = 10;
-Q = 2;
+P = 50;
+Q = 100;
 
 mu = 1;
 error = zeros(Q,P);
