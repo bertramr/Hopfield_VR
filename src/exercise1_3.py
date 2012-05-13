@@ -41,7 +41,7 @@ def exercise1_3(N=200,P=50,tests=2):
     setp(lp,color='black')
 
     ax1.set_ylim(0,1.1)
-    ax1.yaxis.grid(True,linestyle='-',which='major',color='lightgray',alpha=0.5)
+    ax1.yaxis.grid(True,linestyle='-',which='major',color=(0.2,0.2,0.2),alpha=0.5)
     ax1.set_axisbelow(True)
     ax1.set_title('Mean retrieval error over different network realizations (N=%d, tests=%d)'%(N,tests))
     ax1.set_ylabel('Mean retrieval error')
