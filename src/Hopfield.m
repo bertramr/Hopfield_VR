@@ -4,15 +4,17 @@ classdef Hopfield
         P
         pattern
         weight
-        weight2
+
         x
-        
+
+        meanRetrievalError
         tmax
     end
     
     properties (Dependent=true)
         overlap
         energy
+        pixelDistance
     end
     
     methods
@@ -65,20 +67,22 @@ classdef Hopfield
         end
         
         function overlap = get.overlap(obj)
-            
             % Alte Formulierung im Intervall [-1 1]
-            %overlap =   sum(obj.pattern .* repmat(obj.x,obj.P,1),2) / obj.N;
-            
-            % Umwandlung (overlap + 1)*1/2
-            % Im Intervall [0 1] entspricht Prozent
-            overlap =  sum(obj.pattern == repmat(obj.x,obj.P,1),2) / obj.N;
+            overlap =   sum(obj.pattern .* repmat(obj.x,obj.P,1),2) / obj.N;
         end
         
+        function dist = get.pixelDistance(obj)
+            %% Exersice 1.2
+            % Umwandlung (overlap + 1)*1/2
+            % Im Intervall [0 1] entspricht Prozent
+            dist =  sum(obj.pattern == repmat(obj.x,obj.P,1),2) / obj.N;
+            
+        end
         function energy = get.energy(obj)
             energy = - sum(sum(obj.weight .* (obj.x' * obj.x)));
         end
         
-        function obj = run(obj, P, ratio, mu, flip_ratio)
+        function obj = run(obj, P, ratio, mu, flip_ratio, bPlot)
             obj = obj.create_pattern(P, ratio);
             obj = obj.calc_weight;
             obj = obj.set_init_state(mu,flip_ratio);
@@ -103,13 +107,14 @@ classdef Hopfield
                     break;
                 end
             end
-            
-            figure;
-            subplot(2,1,1);
-            plot(time,energy);
-            subplot(2,1,2);
-            plot(time,overlap);
-            
+            if bPlot
+                figure;
+                subplot(2,1,1);
+                plot(time,energy);
+                subplot(2,1,2);
+                plot(time,overlap);
+            end
+            obj.meanRetrievalError = obj.pixelDistance;
         end
     end
     
