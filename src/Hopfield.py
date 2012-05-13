@@ -102,6 +102,9 @@ class HopfieldNetwork:
         
         return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
 
+    def normalized_pixel_distance(self,mu=0):
+        return (1-self.overlap(mu))/2
+    
     def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2, bPlot=True):
                 
         self.create_pattern(P, ratio)
