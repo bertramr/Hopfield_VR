@@ -2,7 +2,8 @@ from pylab import *
 from numpy import *
 from copy import copy
 from time import sleep, strftime
-tmax = 20
+
+tmax = 3
 
 class HopfieldNetwork:
     def __init__(self,N):
@@ -52,7 +53,22 @@ class HopfieldNetwork:
             corresponsing to the pattern self.pattern
         """
         self.weight=1./self.N*np.dot((self.pattern[:,:]).T,self.pattern[:,:])
-        
+        for i in range(self.N):
+            self.weight[i,i] = 0
+    
+    def cut_weight(self, Pcut):
+        """
+            Exercise 3: Random asymetry
+            ...consider now networks where for each pairs of nodes (i, j), the 
+            directed connection from node i to node j is cut with probability 
+            pcut.
+        """
+        for i in range(self.N):
+            for j in range(self.N):
+                if rand(1) < Pcut:
+                    self.weight[i,j] = 0
+
+
     def set_init_state(self,mu,flip_ratio):
         self.x=np.zeros((1,self.N))
         
@@ -75,24 +91,10 @@ class HopfieldNetwork:
         overlap = [self.overlap(mu)]     
 
     def energy(self):
-        """
-            DEFINITION
-            calculates the energy function of the pattern at a given state
-        """
         e=-np.dot(self.x,np.dot(self.weight,(self.x).T))
         return e[0,0]
     
     def dynamic_seq(self,j):
-        """
-            DEFINITION
-            flips one pixel after the other and increases the
-            timestep once all pixels have been flipped
-            
-            CONDITION
-            for loop is required for i
-            
-        """
-
         if sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])==0:
             self.x[0,j]=1
         else:
@@ -105,11 +107,16 @@ class HopfieldNetwork:
     def normalized_pixel_distance(self,mu=0):
         return (1-self.overlap(mu))/2
     
-    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2, bPlot=True):
+    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2, pcut=0, bPlot=True, bDebug=False):
                 
         self.create_pattern(P, ratio)
         self.calc_weight()
         self.set_init_state(mu,flip_ratio)
+
+        self.cut_weight(pcut)
+
+        if bDebug:
+            print self.weight
 
         t = [0]
         overlap = [self.overlap(mu)]
