@@ -1,19 +1,11 @@
-from HopfieldNetwork import HopfieldNetwork
 from pylab import *
-from numpy import random
+from exercise1_1 import exercise1_1
+from exercise1_3 import exercise1_3
 
 def main():
-    h = HopfieldNetwork(N=200)
-    error = zeros((5,10),int);
-    for p in range(1, 11):
-        for q in range(5):
-            r = random.randint(0,p)
-            error[q,p-1]=(h.run(P=p, mu=r, flip_ratio=0.1))
-    
-    figure();
-    plot(error);
+	exercise1_1()
+	exercise1_3()
 
 
 if __name__=="__main__":
-    main()
-
+	main() 
