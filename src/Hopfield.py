@@ -178,8 +178,7 @@ class HopfieldNetwork:
                 break
             x_old = copy(self.x)
 
-        draw()
-        print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
+        #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         
         if bPlot:
             show()
