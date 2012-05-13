@@ -31,10 +31,13 @@ def exercise1_3(N=200,P=50,tests=2):
     print error;
     max_error = max(error,axis=1)
     min_error = min(error,axis=1)
+
+    stdev=np.std(error,axis=1)
+    meanvalues=np.mean(error,axis=1)
         
     fig = figure()
     ax1 = fig.add_subplot(111)
-    lp = plot(range(1,P+1),divide(sum(error,axis=1),tests))
+    lp = errorbar(range(1,P+1),meanvalues,stdev)
     bp = boxplot(transpose(error))
     axhline(y=0.02,linewidth=1, color='r')
     
