@@ -42,28 +42,42 @@ close;
 % P at which patterns can be retrieved from the network with a 
 % mean retrieval error of less than 2%?
 
-h = Hopfield(200);
+N = 200;
+h = Hopfield(N);
 flip_ratio = 0.1;
 ratio = 0.5;
 
-P = 25;
+P = 50;
 Q = 2;
 
 mu = 1;
-error = zeros(P,Q);
+error = zeros(Q,P);
 for p = 1:P
     for q = 1:Q
         mu = randi(p,1);
         h = h.run(p, ratio, mu, flip_ratio, false);
-        error(p,q) = h.meanRetrievalError(mu);
+        error(q,p) = h.meanRetrievalError(mu);
     end
 end
-e = std(error,[],2);
-y = mean(error,2);
-errorbar(y,e);
-title(sprintf('Mean retrieval error vs. number of patterns (Q=%d)',Q));
+e = std(error);
+y = mean(error);
+
+boxplot(error,'plotstyle','compact')
+title(sprintf('Mean retrieval error (N=%d, Q=%d)',N,Q));
 ylabel('mean retrieval error');
 xlabel('# patterns');
-
-print('../tex/img/exer1_3m.png','-dpng');
+grid on
+print(sprintf('../tex/img/exer1_3m-box_error_N%d_Q%d.png',N,Q),'-dpng');
 close;
+
+errorbar(y,e);
+title(sprintf('Mean retrieval error (N=%d, Q=%d)',N,Q));
+ylabel('mean retrieval error');
+xlabel('# patterns');
+grid on
+hold on
+plot([1 50],[0.98 0.98],'--r');
+print(sprintf('../tex/img/exer1_3m-bar_error_N%d_Q%d.png',N,Q),'-dpng');
+close;
+
+

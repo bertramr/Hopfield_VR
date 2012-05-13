@@ -7,6 +7,7 @@ tmax = 20
 class HopfieldNetwork:
     def __init__(self,N):
         self.N = N
+<<<<<<< HEAD:src/Hopfield.py
         """
             DEFINITION
             initialization of the class
@@ -37,6 +38,13 @@ class HopfieldNetwork:
         #defines how many cells should be 1
         idx = int(ratio*self.N) 
         
+=======
+
+    def create_pattern(self,P=5,ratio=0.5):
+        self.P = P
+        self.pattern = -ones((P,self.N),int) #creates an array of ones of length self.N and height P of type int
+        idx = int(ratio*self.N) #defines how many cells should be 1
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         for i in range(P):
             # sets the first idx cells to 1
             self.pattern[i,:idx] = 1 
@@ -46,6 +54,7 @@ class HopfieldNetwork:
             self.pattern[i] = permutation(self.pattern[i]) 
 
     def calc_weight(self):
+<<<<<<< HEAD:src/Hopfield.py
         """
             DEFINITION
             creates a matrix with all the weights
@@ -119,10 +128,31 @@ class HopfieldNetwork:
 
         if sum(self.weight*self.x,axis=1)[j]==0:
             self.x[j]=1
+=======
+        self.weight=1./self.N*np.dot((self.pattern[:,:]).T,self.pattern[:,:])
+            
+    def set_init_state(self,mu,flip_ratio):
+        self.x=np.zeros((1,self.N))
+        self.x[0,:] = self.pattern[mu,:] # duplicate pattern mu as test pattern and save it as self.x
+        flip = permutation(arange(self.N)) #create a random array of length self.N
+        idx = int(self.N*flip_ratio) # define how many elements should be flipped
+        self.x[0,flip[0:idx]] *= -1 # flip ids number of array
+        self.t = [0] #set the inital time step to 0
+        overlap = [self.overlap(mu)] # set the initial overlap to that of the pattern to iself
+
+    def energy(self):
+        e=-np.dot(self.x,np.dot(self.weight,(self.x).T))
+        return e[0,0]
+    
+    def dynamic_seq(self,j):
+        if sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])==0:
+            self.x[0,j]=1
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         else:
-            self.x[j]=sign(sum(self.weight*self.x,axis=1)[j])
+            self.x[0,j]=sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])
     
     def overlap(self,mu=0):
+<<<<<<< HEAD:src/Hopfield.py
         """
         DEFINITION
         computes the overlap of the test pattern with pattern nb mu
@@ -147,6 +177,13 @@ class HopfieldNetwork:
         -L.Ziegler 03.2009.
         -N.Fremaux 03.2010.
         """
+=======
+        
+        return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
+
+    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
+        clf()
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         
         self.create_pattern(P, ratio)
         self.calc_weight()
@@ -155,6 +192,7 @@ class HopfieldNetwork:
         t = [0]
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
+<<<<<<< HEAD:src/Hopfield.py
 
         # prepare the figure
         figure()
@@ -163,18 +201,46 @@ class HopfieldNetwork:
         # we keep a handle to the image
         g1, = plot(t,energy,'k',lw=2)
         axis([0,2,0,-self.N*5])
+=======
+        
+        '''
+        # plot the current network state
+        subplot(221)
+        g1 = imshow(self.grid(),**plot_dic)# we keep a handle to the image
+        axis('off')
+        title('x')
+        
+        # plot the target pattern
+        subplot(222)
+        imshow(self.grid(mu=mu),**plot_dic)
+        axis('off')
+        title('pattern %i'%mu)
+        '''  
+
+        subplot(211)
+        g1, = plot(t,energy,'b',lw=2)
+        axis([0,2,-self.N*5,0])
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         xlabel('time step')
         ylabel('energy')
 
         # plot the time course of the overlap
         subplot(212)
+<<<<<<< HEAD:src/Hopfield.py
         # we keep a handle to the curve
         g2, = plot(t,overlap,'k',lw=2) 
+=======
+        g2, = plot(t,overlap,'b',lw=2) # we keep a handle to the curve
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         axis([0,2,-1,1])
         xlabel('time step')
         ylabel('overlap')
         
         # this forces pylab to update and show the fig.
+<<<<<<< HEAD:src/Hopfield.py
+=======
+
+>>>>>>> 9bf2213874df23be0e4eb496f73de6ea9f3ba051:src/HopfieldNetwork_sequential.py
         draw()
         
         x_old = copy(self.x)
@@ -210,6 +276,6 @@ class HopfieldNetwork:
                 break
             x_old = copy(self.x)
             #sleep(0.5)
-        print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
-        show()
+                #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
+                #show()
         return overlap[-1]

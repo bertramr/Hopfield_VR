@@ -1,12 +1,13 @@
 classdef Hopfield
+    
     properties
         N
         P
         pattern
         weight
-
+        
         x
-
+        
         meanRetrievalError
         tmax
     end
@@ -17,23 +18,39 @@ classdef Hopfield
         pixelDistance
     end
     
+    properties (Access=private)
+        initFlag
+    end
+    
     methods
         function obj = Hopfield(N)
             obj.N = N;
+            obj.P = 0;
+            obj.pattern = [];
             obj.tmax = 20;
+            obj.initFlag = false;
         end
         
-        function obj = create_pattern(obj, P, ratio)
-            obj.P = P;
+        function pattern = create_pattern(obj, P, ratio)
             idx = ceil(ratio * obj.N);
-            obj.pattern = [-ones(P,idx) ones(P,obj.N-idx)];
-            
+            pattern = [-ones(P,idx) ones(P,obj.N-idx)];
             
             for i = 1:P
                 perm = randperm(obj.N);
-                obj.pattern(i,:) = obj.pattern(i,perm);
+                pattern(i,:) = pattern(i,perm);
             end
             
+        end
+        
+        function obj = add_pattern(obj,P,ratio)
+            %% Exercise 2
+            obj.P = obj.P + P;
+            
+            obj.pattern = [obj.pattern ;...
+                obj.create_pattern(P,ratio)];
+            
+            % update weight
+            obj = obj.calc_weight;
         end
         
         function obj = calc_weight(obj)
@@ -82,10 +99,16 @@ classdef Hopfield
             energy = - sum(sum(obj.weight .* (obj.x' * obj.x)));
         end
         
-        function obj = run(obj, P, ratio, mu, flip_ratio, bPlot)
-            obj = obj.create_pattern(P, ratio);
-            obj = obj.calc_weight;
+        function obj = init(obj, P, ratio, mu, flip_ratio)
+            obj = obj.add_pattern(P, ratio);
             obj = obj.set_init_state(mu,flip_ratio);
+            obj.initFlag = true;
+        end
+        
+        function obj = run(obj, P, ratio, mu, flip_ratio, bPlot)
+            if ~obj.initFlag || obj.P ~= P
+                obj = obj.init(P,ratio,mu,flip_ratio);
+            end
             
             time = cumsum(ones(obj.tmax * obj.N,1))/obj.N;
             energy = zeros(obj.tmax * obj.N,1);
