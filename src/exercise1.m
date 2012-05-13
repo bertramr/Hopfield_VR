@@ -47,7 +47,7 @@ h = Hopfield(N);
 flip_ratio = 0.1;
 ratio = 0.5;
 
-P = 50;
+P = 10;
 Q = 2;
 
 mu = 1;
@@ -76,7 +76,7 @@ ylabel('mean retrieval error');
 xlabel('# patterns');
 grid on
 hold on
-plot([1 50],[0.98 0.98],'--r');
+plot([1 50],[0.02 0.02],'--r');
 print(sprintf('../tex/img/exer1_3m-bar_error_N%d_Q%d.png',N,Q),'-dpng');
 close;
 

@@ -18,17 +18,12 @@ classdef Hopfield
         pixelDistance
     end
     
-    properties (Access=private)
-        initFlag
-    end
-    
     methods
         function obj = Hopfield(N)
             obj.N = N;
             obj.P = 0;
             obj.pattern = [];
             obj.tmax = 20;
-            obj.initFlag = false;
         end
         
         function pattern = create_pattern(obj, P, ratio)
@@ -92,23 +87,17 @@ classdef Hopfield
             %% Exersice 1.2
             % Umwandlung (overlap + 1)*1/2
             % Im Intervall [0 1] entspricht Prozent
-            dist =  sum(obj.pattern == repmat(obj.x,obj.P,1),2) / obj.N;
+            dist =  sum(obj.pattern ~= repmat(obj.x,obj.P,1),2) / obj.N;
             
         end
         function energy = get.energy(obj)
-            energy = - sum(sum(obj.weight .* (obj.x' * obj.x)));
+            energy = - obj.x * obj.weight * obj.x';
         end
         
-        function obj = init(obj, P, ratio, mu, flip_ratio)
-            obj = obj.add_pattern(P, ratio);
-            obj = obj.set_init_state(mu,flip_ratio);
-            obj.initFlag = true;
-        end
         
         function obj = run(obj, P, ratio, mu, flip_ratio, bPlot)
-            if ~obj.initFlag || obj.P ~= P
-                obj = obj.init(P,ratio,mu,flip_ratio);
-            end
+            obj = obj.add_pattern(P, ratio);
+            obj = obj.set_init_state(mu,flip_ratio);
             
             time = cumsum(ones(obj.tmax * obj.N,1))/obj.N;
             energy = zeros(obj.tmax * obj.N,1);
