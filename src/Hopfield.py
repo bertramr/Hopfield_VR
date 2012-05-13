@@ -62,7 +62,8 @@ class HopfieldNetwork:
             directed connection from node i to node j is cut with probability 
             pcut.
         """
-        self.weight[rand(self.N,self.N)<Pcut] = 0
+        if Pcut > 0:
+            self.weight[rand(self.N,self.N)<Pcut] = 0
 
 
     def set_init_state(self,mu,flip_ratio):
