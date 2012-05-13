@@ -2,7 +2,7 @@ from Hopfield import HopfieldNetwork
 from pylab import *
 from numpy import random, dot, max, min, divide
 
-def exercise1_3(N=200,P=50,tests=2):
+def exercise1_3(N=200,P=50,tests=50):
     '''
     Set N = 200 and c = 0.1. Plot the mean retrieval error of 
     a randomly chosen pattern averaged

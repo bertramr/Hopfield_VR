@@ -3,7 +3,7 @@ from numpy import *
 from copy import copy
 from time import sleep, strftime
 
-tmax = 3
+tmax = 20
 
 class HopfieldNetwork:
     def __init__(self):
