@@ -118,8 +118,8 @@ class HopfieldNetwork:
 
         if bPlot:
             # prepare the figure
-            figure()
-
+            figure(num=None, figsize=(8, 10), dpi=80, facecolor='w', edgecolor='k')
+    
             # plot the time course of the energy
             subplot(311)
             g1, = plot(t,energy,'b',lw=2)
@@ -158,6 +158,7 @@ class HopfieldNetwork:
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
                 energy.append(self.energy())
+                normalized_pixel_distance.append(self.normalized_pixel_distance(mu))
                 t.append(i+divide(s,float(self.N)))
                 s+=1
             
@@ -177,6 +178,7 @@ class HopfieldNetwork:
                 break
             x_old = copy(self.x)
 
+        draw()
         print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         
         if bPlot:
