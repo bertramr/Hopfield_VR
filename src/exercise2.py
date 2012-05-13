@@ -13,25 +13,24 @@ import numpy as np
         
         Hint: To calculate Pmax, successively add patterns and calculate the mean retrieval error over.
     '''
-def pmax(N):
+def pmax(N,flip_ratio,pcut):
     h = HopfieldNetwork(N)
     p=1
     meanerror = 0
     while meanerror <= 0.02:
         error=zeros((1,p),float)
         for r in range(p):
-            error[0,r]=(h.run(P=p+1, mu=r, flip_ratio=0.1, bPlot=False))
+            error[0,r]=(h.run(P=p+1, mu=r, flip_ratio=flip_ratio,pcut=pcut, bPlot=False))
         meanerror=np.mean(error[0,:])
         p=p+1
-        print p 
-        print meanerror
+        print '%d: %.4f' %( p , meanerror)
     return p-1
 
 def exercise2(N=200,tests=10,confidence=0.95):
-    print 'Exercise2'
+    print 'Exercise 2:'
     pmaxval=zeros((1,tests),float)
     for i in range(tests):
-        pmaxval[0,i]=pmax(N)
+        pmaxval[0,i]=pmax(N,flip_ratio=0.1,pcut=0)
     loadmax=pmaxval[0,:]/N
     load_mean=np.mean(loadmax)
     pmax_mean=np.mean(pmaxval[0,:])

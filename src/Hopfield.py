@@ -53,8 +53,7 @@ class HopfieldNetwork:
             corresponsing to the pattern self.pattern
         """
         self.weight=1./self.N*np.dot((self.pattern[:,:]).T,self.pattern[:,:])
-        for i in range(self.N):
-            self.weight[i,i] = 0
+        self.weight[eye(self.N,self.N,dtype='bool')] = 0
     
     def cut_weight(self, Pcut):
         """
@@ -63,10 +62,7 @@ class HopfieldNetwork:
             directed connection from node i to node j is cut with probability 
             pcut.
         """
-        for i in range(self.N):
-            for j in range(self.N):
-                if rand(1) < Pcut:
-                    self.weight[i,j] = 0
+        self.weight[rand(self.N,self.N)<Pcut] = 0
 
 
     def set_init_state(self,mu,flip_ratio):

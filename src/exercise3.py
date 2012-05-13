@@ -1,8 +1,9 @@
 from Hopfield import HopfieldNetwork
+from exercise2 import pmax
 import numpy as np
 from pylab import *
 
-def exercise3(N = 200, c= 0.1, pcut=0):
+def exercise3(N = 200, c= 0.1, pcut=0, repetition=10):
     '''
     Exercise 3: Random asymmetry
     To investigate the robustness of pattern retrieval against asymmetry in the
@@ -17,11 +18,9 @@ def exercise3(N = 200, c= 0.1, pcut=0):
     necessarily hold for pcut > 0.
     '''
     
-    P = 5
-    h = HopfieldNetwork(N)
-    for pcut in np.linspace(0,1,num=11):
-        r = np.random.randint(0,P)
-        h.run(P, mu = r, flip_ratio=c,pcut=pcut,  bPlot=True, bDebug=True)
+    for rep in range(repetition):
+        for pcut in np.linspace(0,1,num=11):
+            pmax(N=N,flip_ratio=c,pcut=pcut)
 
 if __name__=="__main__":
     exercise3()
