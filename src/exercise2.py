@@ -24,10 +24,10 @@ def pmax(N):
         meanerror=np.mean(error[0,:])
         p=p+1
         print p 
-        print meanerror
+        print meanerror 
     return p-1
 
-def exercise2(N=200,tests=10,confidence=0.95):
+def exercise2(N=100,tests=10,confidence=0.95):
     print 'Exercise2'
     pmaxval=zeros((1,tests),float)
     for i in range(tests):
@@ -38,7 +38,7 @@ def exercise2(N=200,tests=10,confidence=0.95):
     load_std=np.std(loadmax)
     ci = load_std * ((1+confidence)/2)/ 10
 
-    print 'The maximal load of the Hopfield Network is %.4f with a 0.95 confidence intervall of [%.4f,%.4f]. The capacity of the network is %.4f'%(load_mean,load_mean-ci,load_mean+ci,pmax_mean)        
+    print 'The maximal load of the Hopfield Network is %.5f with a 0.95 confidence intervall of [%.5f,%.5f]. The capacity of the network is %.5f'%(load_mean,load_mean-ci,load_mean+ci,pmax_mean)        
     
 if __name__=="__main__":
     exercise2()
