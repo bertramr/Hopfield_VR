@@ -10,8 +10,8 @@ def exercise1_1():
     '''
     
     print "Exercise 1.1:"
-    h = HopfieldNetwork(N=200)
-    h.run(P=5, flip_ratio=0.2)
+    h = HopfieldNetwork()
+    h.run(N=200, P=5, flip_ratio=0.2)
 
 if __name__=="__main__":
     exercise1_1()

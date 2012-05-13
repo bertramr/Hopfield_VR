@@ -6,27 +6,22 @@ from time import sleep, strftime
 tmax = 3
 
 class HopfieldNetwork:
-    def __init__(self,N):
-        self.N = N
+    def __init__(self):
         """
             DEFINITION
             initialization of the class
-
-            INPUT
-            N: size of the network, i.e. if N=10 
-            it will consists of 10 pixels
 
         """
 
     def create_pattern(self,P=5,ratio=0.5):
         """
             DEFINITION
-            creates P patterns where the ratio of -1 to 1 
+            creates P patterns where the ratio of 1 to total 
             pixels is "ratio"
             
             INPUt
             P: Number of patterns
-            ratio: ratio of 1/-1 pixels
+            ratio: ratio of 1/to pixels
         """
             
         self.P = P
@@ -107,8 +102,9 @@ class HopfieldNetwork:
     def normalized_pixel_distance(self,mu=0):
         return (1-self.overlap(mu))/2
     
-    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2, pcut=0, bPlot=True, bDebug=False):
-                
+    def run(self, N=200, P=5, ratio=0.5, mu=0, flip_ratio=0.2, pcut=0, bPlot=True, bDebug=False):
+        
+        self.N=N
         self.create_pattern(P, ratio)
         self.calc_weight()
         self.set_init_state(mu,flip_ratio)
@@ -123,38 +119,7 @@ class HopfieldNetwork:
         energy = [self.energy()]
         normalized_pixel_distance = [self.normalized_pixel_distance()]
 
-        if bPlot:
-            # prepare the figure
-            figure(num=None, figsize=(8, 10), dpi=80, facecolor='w', edgecolor='k')
-    
-            # plot the time course of the energy
-            subplot(311)
-            g1, = plot(t,energy,'b',lw=2)
-            axis([0,tmax,-self.N*5,0])
-            xlabel('time step')
-            ylabel('energy')
-            grid('on')
-        
-            # plot the time course of the overlap
-            subplot(312)
-            g2, = plot(t,overlap,'b',lw=2) # we keep a handle to the curve
-            axis([0,tmax,-1,1])
-            xlabel('time step')
-            ylabel('overlap')
-            grid('on')
-        
-            # plot the time course of the normalized pixel distance
-            subplot(313)
-            g3, = plot(t,normalized_pixel_distance,'b',lw=2) # we keep a handle to the curve
-            axis([0,tmax,0,1])
-            xlabel('time step')
-            ylabel('normalized pixel distance')
-            grid('on')
-            
-        
-            # this forces pylab to update and show the fig.
-            draw()
-        
+                
         x_old = copy(self.x)
         
         for i in range(tmax):
@@ -169,22 +134,47 @@ class HopfieldNetwork:
                 t.append(i+divide(s,float(self.N)))
                 s+=1
             
-            if bPlot:
-                # update the plotted data
-                g1.set_data(t,energy)
-                g2.set_data(t,overlap)
-                g3.set_data(t,normalized_pixel_distance)    
-
-            
-                # update the figure so that we see the changes
-                draw()
-            
             # check the exit condition
             i_fin = i+1
             if sum(abs(x_old-self.x))==0:
                 break
             x_old = copy(self.x)
-
+                
+        if bPlot:
+            # prepare the figure
+            figure(num=None, figsize=(7, 8), dpi=80, facecolor='w', edgecolor='k')
+    
+            # plot the time course of the energy
+            subplot(311)
+            g1, = plot(t,energy,'b',lw=2)
+            axis('auto')
+            xlim(0, 2) 
+            #xlabel('time step')
+            ylabel('energy')
+            grid('on')
+        
+            # plot the time course of the overlap
+            subplot(312)
+            g2, = plot(t,overlap,'b',lw=2) # we keep a handle to the curve
+            axis('auto')
+            xlim(0,2)
+            #xlabel('time step')
+            ylabel('overlap')
+            grid('on')
+        
+            # plot the time course of the normalized pixel distance
+            subplot(313)
+            g3, = plot(t,normalized_pixel_distance,'b',lw=2) # we keep a handle to the curve
+            axis('auto')
+            xlim(0,2)
+            xlabel('time step')
+            ylabel('normalized pixel distance')
+            grid('on')
+            
+        
+            # this forces pylab to update and show the fig.
+            draw()
+            
         #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
         
         if bPlot:

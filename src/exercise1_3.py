@@ -18,7 +18,7 @@ def exercise1_3(N=200,P=50,tests=2):
     '''
     
     print "Exercise 1.3:"
-    h = HopfieldNetwork(N)
+    h = HopfieldNetwork()
     error = zeros((P,tests),float)
     for p in range(P):
         for q in range(tests):
@@ -26,7 +26,7 @@ def exercise1_3(N=200,P=50,tests=2):
                 r = random.randint(0,p)
             else:
                 r = 0
-            error[p,q]=(h.run(P=p+1, mu=r, flip_ratio=0.1, bPlot=False))
+            error[p,q]=(h.run(N, P=p+1, mu=r, flip_ratio=0.1, bPlot=False))
     
     print error;
     max_error = max(error,axis=1)
