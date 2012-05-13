@@ -10,11 +10,11 @@ class HopfieldNetwork:
 
     def create_pattern(self,P=5,ratio=0.5):
         self.P = P
-        self.pattern = -ones((P,self.N),int) #creates an array of ones of length self.N and height P of type int
+        self.pattern = -ones((P,self.N),int) #creates an array of negative ones of length self.N and height P of type int
         idx = int(ratio*self.N) #defines how many cells should be 1
         for i in range(P):
             self.pattern[i,:idx] = 1 # sets the first idx cells to 1
-            self.pattern[i] = permutation(self.pattern[i]) #permutates the cells to create a random order ot 1 and -1 cells
+            self.pattern[i,:] = permutation(self.pattern[i,:]) #permutates the cells to create a random order ot 1 and -1 cells
 
     def calc_weight(self):
         self.weight=1./self.N*np.dot((self.pattern[:,:]).T,self.pattern[:,:])
@@ -39,13 +39,12 @@ class HopfieldNetwork:
             self.x[0,j]=sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])
     
     def overlap(self,mu=0):
-        self.overlap=np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
-        return self.overlap
+        return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
     
-    def normalized_pixel_distance(self,mu):
-        return (1-self.overlap(mu)/1
-
-    def run(self, P=5, ratio=0.5, mu=0, flip_ratio=0.2):
+    def normalized_pixel_distance(self,mu=0):
+        return (1-self.overlap(mu))/2
+    
+    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
         clf()
         
         self.create_pattern(P, ratio)
@@ -56,40 +55,31 @@ class HopfieldNetwork:
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
         normalized_pixel_distance = [self.normalized_pixel_distance()]
-        
-        '''
-        # plot the current network state
-        subplot(221)
-        g1 = imshow(self.grid(),**plot_dic)# we keep a handle to the image
-        axis('off')
-        title('x')
-        
-        # plot the target pattern
-        subplot(222)
-        imshow(self.grid(mu=mu),**plot_dic)
-        axis('off')
-        title('pattern %i'%mu)
-        '''  
 
+        # plot the time course of the energy
         subplot(311)
         g1, = plot(t,energy,'b',lw=2)
-        axis([0,2,-self.N*5,0])
+        axis([0,tmax,-self.N*5,0])
         xlabel('time step')
         ylabel('energy')
+        grid('on')
 
         # plot the time course of the overlap
         subplot(312)
         g2, = plot(t,overlap,'b',lw=2) # we keep a handle to the curve
-        axis([0,2,-1,1])
+        axis([0,tmax,-1,1])
         xlabel('time step')
         ylabel('overlap')
+        grid('on')
         
         # plot the time course of the normalized pixel distance
         subplot(313)
-        g2, = plot(t,normalized_pixel_distance,'b',lw=2) # we keep a handle to the curve
-        axis([0,2,-1,1])
+        g3, = plot(t,normalized_pixel_distance,'b',lw=2) # we keep a handle to the curve
+        axis([0,tmax,0,1])
         xlabel('time step')
-        ylabel('overlap')    
+        ylabel('normalized pixel distance')
+        grid('on')
+        
         
         # this forces pylab to update and show the fig.
 
@@ -99,27 +89,21 @@ class HopfieldNetwork:
         
         
         for i in range(tmax):
-            """
-            # run a step
-            self.dynamic()
-            overlap.append(self.overlap(mu))
-            energy.append(self.energy())
-            t.append(i+1)
-            """
             
             #update each field sequentially
             s=1
             for j in permutation(range(self.N)):
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
-                energy.append(self.energy(mu))
-                normalized_pixel_distance.append(self.normalized_pixel_distance())
+                energy.append(self.energy())
+                normalized_pixel_distance.append(self.normalized_pixel_distance(mu))
                 t.append(i+divide(s,float(self.N)))
                 s+=1
             
             # update the plotted data
             g1.set_data(t,energy)
             g2.set_data(t,overlap)
+            g3.set_data(t,normalized_pixel_distance)    
             
             # update the figure so that we see the changes
             draw()
@@ -127,9 +111,9 @@ class HopfieldNetwork:
             # check the exit condition
             i_fin = i+1
             if sum(abs(x_old-self.x))==0:
+                return overlap[-1]
                 break
             x_old = copy(self.x)
             #sleep(0.5)
-                #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
-                #show()
-        return overlap[-1]
+            #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
+            #show()
