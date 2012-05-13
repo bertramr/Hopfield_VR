@@ -31,12 +31,11 @@ def exercise2(N=200,tests=10,confidence=0.95):
     print 'Exercise2'
     pmaxval=zeros((1,tests),float)
     for i in range(tests):
-        pmaxval[0,i]=float(pmax(N))
+        pmaxval[0,i]=pmax(N)
     loadmax=pmaxval[0,:]/N
-    print loadmax
-    load_mean=np.mean(loadmax[0,:])
+    load_mean=np.mean(loadmax)
     pmax_mean=np.mean(pmaxval[0,:])
-    load_std=np.std(loadmax[0,:])
+    load_std=np.std(loadmax)
     ci = load_std * ((1+confidence)/2)/ 10
     #print 'results'
     #print load_mean
