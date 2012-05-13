@@ -186,5 +186,5 @@ class HopfieldNetwork:
             savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
             close()
 
-        return overlap[-1]
+        return normalized_pixel_distance[-1]
 
