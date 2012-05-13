@@ -39,10 +39,13 @@ class HopfieldNetwork:
             self.x[0,j]=sign(np.dot(self.x[:,:],self.weight[:,:])[0,j])
     
     def overlap(self,mu=0):
-        
-        return np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
+        self.overlap=np.dot(self.pattern[mu,:],self.x[0,:])/float(self.N)
+        return self.overlap
+    
+    def normalized_pixel_distance(self,mu):
+        return (1-self.overlap(mu)/1
 
-    def run(self,P=5, ratio=0.5, mu=0, flip_ratio=0.2):
+    def run(self, P=5, ratio=0.5, mu=0, flip_ratio=0.2):
         clf()
         
         self.create_pattern(P, ratio)
@@ -52,6 +55,7 @@ class HopfieldNetwork:
         t = [0]
         overlap = [self.overlap(mu)]
         energy = [self.energy()]
+        normalized_pixel_distance = [self.normalized_pixel_distance()]
         
         '''
         # plot the current network state
@@ -67,19 +71,25 @@ class HopfieldNetwork:
         title('pattern %i'%mu)
         '''  
 
-        subplot(211)
+        subplot(311)
         g1, = plot(t,energy,'b',lw=2)
         axis([0,2,-self.N*5,0])
         xlabel('time step')
         ylabel('energy')
 
         # plot the time course of the overlap
-        subplot(212)
+        subplot(312)
         g2, = plot(t,overlap,'b',lw=2) # we keep a handle to the curve
         axis([0,2,-1,1])
         xlabel('time step')
         ylabel('overlap')
         
+        # plot the time course of the normalized pixel distance
+        subplot(313)
+        g2, = plot(t,normalized_pixel_distance,'b',lw=2) # we keep a handle to the curve
+        axis([0,2,-1,1])
+        xlabel('time step')
+        ylabel('overlap')    
         
         # this forces pylab to update and show the fig.
 
@@ -102,7 +112,8 @@ class HopfieldNetwork:
             for j in permutation(range(self.N)):
                 self.dynamic_seq(j)
                 overlap.append(self.overlap(mu))
-                energy.append(self.energy())
+                energy.append(self.energy(mu))
+                normalized_pixel_distance.append(self.normalized_pixel_distance())
                 t.append(i+divide(s,float(self.N)))
                 s+=1
             
