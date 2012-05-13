@@ -14,7 +14,7 @@ import numpy as np
         Hint: To calculate Pmax, successively add patterns and calculate the mean retrieval error over.
     '''
 def pmax(N,flip_ratio,pcut):
-    h = HopfieldNetwork(N)
+    h = HopfieldNetwork()
     p=1
     meanerror = 0
     while meanerror <= 0.02:

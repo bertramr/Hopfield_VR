@@ -166,18 +166,14 @@ class HopfieldNetwork:
             xlim(0,2)
             xlabel('time step')
             ylabel('normalized pixel distance')
-            grid('on')
-            
+            grid('on')            
         
             # this forces pylab to update and show the fig.
             draw()
-            
-        #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1])
-        
-        if bPlot:
             show()
             savefig('../tex/img/plots/energy_overlap-%s.png' % (strftime('%s')))
             close()
-
+        
+        #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1]) 
         return normalized_pixel_distance[-1]
 
