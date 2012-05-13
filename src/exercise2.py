@@ -46,7 +46,7 @@ def exercise2(N=500,tests=10,confidence=0.95):
         
         n += 1
 
-        print 'The maximal load of the Hopfield Network with N=%d is %.4f with a 0.95 confidence intervall of [%.4f,%.4f].\nThe capacity of the network is %.4f'%(N, load_mean,load_mean-ci,load_mean+ci,pmax_mean)        
+        print 'The maximal load of the Hopfield Network with N=%d is %.5f with a 0.95 confidence intervall of [%.5f,%.5f].\nThe capacity of the network is %.5f'%(N, load_mean,load_mean-ci,load_mean+ci,pmax_mean)        
     
     with open('../tex/img/plots/exercise2_pmaxval','w') as f:
         pickle.dump(pmaxval,f)
