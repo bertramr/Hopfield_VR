@@ -30,11 +30,11 @@ def pmax(N,flip_ratio,pcut):
         print '%d: %.4f' %( p , meanerror)
     return p-1
 
-def exercise2(N=500,tests=10,confidence=0.95):
+def exercise2(N=(100,250,500),tests=10,confidence=0.95):
     print 'Exercise 2:'
     pmaxval=zeros((3,tests),float)
     n = 0
-    for N in (100,250,N):
+    for N in N:
         print N
         for i in range(tests):
             pmaxval[n,i]=pmax(N,flip_ratio=0.1,pcut=0)
@@ -44,13 +44,12 @@ def exercise2(N=500,tests=10,confidence=0.95):
         load_std=np.std(loadmax)
         ci = load_std * ((1+confidence)/2)/ 10
         
-        n += 1
-
+        
+        with open('../tex/img/plots/exercise2_pmaxval-%d'% (N) ,'w') as f:
+            pickle.dump(pmaxval[n,:],f)
+        f.closed
         print 'The maximal load of the Hopfield Network with N=%d is %.5f with a 0.95 confidence intervall of [%.5f,%.5f].\nThe capacity of the network is %.5f'%(N, load_mean,load_mean-ci,load_mean+ci,pmax_mean)        
-    
-    with open('../tex/img/plots/exercise2_pmaxval','w') as f:
-        pickle.dump(pmaxval,f)
-    f.closed
+        n += 1
 
 if __name__=="__main__":
     exercise2()
