@@ -5,7 +5,6 @@
 
 from pylab import *
 from copy import copy
-from time import sleep, strftime
 
 TMAX = 20
 

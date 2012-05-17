@@ -14,28 +14,28 @@ Implement the Hopfield network as described above. Shortly comment on your imple
 \begin{wrapfigure}{r}{0.5\textwidth}
   \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.48\textwidth]{img/plots/energy_overlap-1337264094.png}
+    \includegraphics[width=0.48\textwidth]{dat/ex1_1-energy_overlap-N200-P5-c20}
   \end{center}
   \vspace{-20pt}
   \caption{Exercise 1	}
   \label{fig: Question 1.1}
   \vspace{-10pt}
 \end{wrapfigure}
+
 \paragraph*{}
 
-\normalsize
-The Hopfield Network was implemented and its source code can be found in the appendix. In order to execute it, one should first execute \texttt{h=HopfieldNetwork()} in order to initialize the class. Then one can execute the class using \texttt{h.run()}. The options of the \texttt{run} function are \texttt{N} (number of pixels), \texttt{P} (number of patterns), \texttt{ratio} (fraction of 1 in patterns), \texttt{mu} (pattern chosen for retrieval), \texttt{flip$\_$ratio} (fraction of pixels that are to be changed when creating the retrieval pattern), \texttt{pcut} (), \texttt{bPlot} (whether a plot should be created) and \texttt{bDebug} (whether debugging tools should be turned on).
-By default the function is set to \texttt{run(self, N=200, P=5, ratio=0.5, mu=0, flip$\_$ratio=0.2, pcut=0, bPlot=True, bDebug=False)}.
-At first, the script only ran very slowly, this is because we did not have a lot of experience with python and thus used to for loops to do matrix multiplications. After implementing the \texttt{numpy.dot} function, the script ran incredibly much faster. 
+The Hopfield Network was implemented and its source code can be found in the appendix.  In order to execute it, one should first execute \texttt{h=HopfieldNetwork()} in order  to initialize the class. Then one can execute the class using \texttt{h.run()}. The  options of the \texttt{run} function are \texttt{N} (number of pixels), \texttt{P}  (number of patterns), \texttt{ratio} (fraction of 1 in patterns), \texttt{mu} (pattern  chosen for retrieval), \texttt{flip$\_$ratio} (fraction of pixels that are to be  changed when creating the retrieval pattern), \texttt{pcut} (), \texttt{bPlot} (whether  a plot should be created) and \texttt{bDebug} (whether debugging tools should be turned  on).
+By default the function is set to \texttt{run(self, N=200, P=5, ratio=0.5, mu=0,  flip$\_$ratio=0.2, pcut=0, bPlot=True, bDebug=False)}. 
+At first, the script only ran very slowly, this is because we did not have a lot of  experience with python and thus used to for loops to do matrix multiplications. After  implementing the \texttt{numpy.dot} function, the script ran incredibly much faster. 
 
 \subsection{1.2 Normalized Pixel Distance}
-\small
 \begin{itshape}
+\small
 Using the overlap defined in 1.1, derive an expression for the percentage of pixels in the network state $S$ which differ from the pattern $\xi^\mu$. This is the (normalized) pixel distance.
 \end{itshape}
 
 \paragraph*{}
-\normalsize
+
 Since the overlap gives the fraction of pixels which are identical between the network in state $S(t)$ and the pattern $\xi^\mu$, and the normalized pixel distance must be normalized to the domain $[0,1]$, it must be given by:
 
 \begin{equation}
@@ -45,8 +45,9 @@ d=\frac{1- \frac{1}{N} \sum_{i=1}^N \xi_i^{mu} S_i(t)}{2}
 The normalized pixel distance was plotted together with the energy and the overlap in figure \ref{fig: Question 1.1}.
 
 \subsection{1.3 Pattern retrieval}
-\small
+
 \begin{itshape}
+\small
 We define the retrieval error of a pattern $\xi^\mu$ in a Hopfield network as the normalized pixel distance of the network state $S$ to the pattern $\xi^\mu$ after convergence, when retrieving the pattern $\xi^\mu$ as described above.
 
 Set N = 200 and c = 0.1. Plot the mean retrieval error of a randomly chosen pattern averaged over different network realizations as a function of the dictionary size P. Average over enough network realizations to give a smooth curve and give error bars for the estimation of the mean (you can assume the variation to be normally distributed). From your data points and the chosen confidence interval, roughly estimate a maximal P at which patterns can be retrieved from the network with a mean retrieval error of less than 2$\%$?
@@ -56,13 +57,14 @@ Set N = 200 and c = 0.1. Plot the mean retrieval error of a randomly chosen patt
 \begin{wrapfigure}{r}{0.5\textwidth}
   \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.6\textwidth]{img/plots/error-avg-100.png}
+    \includegraphics[width=0.6\textwidth]{dat/ex1_3-error_avg-N200-P50-Q50.png}
   \end{center}
   \vspace{-20pt}
   \caption{Exercise 1.3: Mean retrieval error averaged over 100 different network realizations.}
   \label{fig: Question 1.3}
   \vspace{-10pt}
 \end{wrapfigure}
+
 \paragraph*{}
 
 Figure \ref{fig: Question 1.3} shows a plot of the mean retrieval error with respect to the dictionary size P. As one can see, the error remains very close to 0 for a dictionary size lower than 20. After that the error starts increasing. We have included a horizontal line at y = 0.02 indicating the 2$\%$ error. From that line, one would roughly estimate that the maximal P at which patterns can be retrieved is P=35. 

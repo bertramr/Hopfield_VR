@@ -1,4 +1,4 @@
-\documentclass[paper=a4, notitlepage]{article}
+\documentclass[a4paper, notitlepage]{article}
 \input{packages}
 
 %\geometry{left=2.0cm, right=2.0cm, top=3.0cm, bottom=3.0cm}
@@ -11,7 +11,7 @@
 \lstset{numbers=left, 
 		numberstyle=\tiny, 
 		numbersep=5pt,
-		language=python,
+		language=Python,
 		keywordstyle=\color{blue},          % keyword style
   		commentstyle=\color{dkgreen},       % comment style
   		stringstyle=\color{mauve},         % string literal style
@@ -61,10 +61,12 @@ Vince Moens \\
 \newpage
 
 \appendix
+
 \nocite*{}
+%\addcontentsline{toc}{section}{References}
 \bibliographystyle{alpha}
 \bibliography{bibliography}
-%\addcontentsline{toc}{chapter}{Bibliography}
+
 
 \input{Listings}
 
