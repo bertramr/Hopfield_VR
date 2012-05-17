@@ -98,8 +98,24 @@ class HopfieldNetwork:
 
     def normalized_pixel_distance(self,mu=0):
         return (1-self.overlap(mu))/2
-    
-    def run(self, N=200, P=5, ratio=0.5, mu=0, flip_ratio=0.2, pcut=0, bPlot=True, bDebug=False):
+
+    def init_excitatory(self, percentage=0.5):
+        idx_exc = int(percentage * self.N)
+        idx_inh = int((1-percentage) * self.N)
+
+        flip = permutation(arange(self.N)) 
+        
+        self.excitatory_nodes = flip[0:idx_exc]
+        self.inhibitory_nodes = flip[idx_exc+1:]
+        #print self.excitatory_nodes
+        
+        for i in self.excitatory_nodes:
+            self.weight[i, self.weight[i,:] > 0 ] = 0
+        
+        for i in self.inhibitory_nodes:
+            self.weight[i, self.weight[i,:] < 0 ] = 0
+
+    def run(self, N=200, P=5, ratio=0.5, mu=0, flip_ratio=0.2, pcut=0, excitatory=-1, bPlot=True, bDebug=False):
         
         self.N=N
         self.create_pattern(P, ratio)
@@ -107,6 +123,9 @@ class HopfieldNetwork:
         self.set_init_state(mu,flip_ratio)
 
         self.cut_weight(pcut)
+
+        if (0 <= excitatory) & (excitatory <= 1) :
+            self.init_excitatory(percentage=excitatory)
 
         if bDebug:
             print self.weight

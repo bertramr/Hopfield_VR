@@ -1,5 +1,5 @@
 from Hopfield import HopfieldNetwork
-from exercise2 import pmax
+from exercise2 import pmax, load_max
 import numpy as np
 from pylab import *
 import pickle
@@ -19,17 +19,14 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, repetition=10):
     necessarily hold for pcut > 0.
     '''
     print 'Exercise 3:'
-    pmaxval= zeros((numint,repetition),float)
-    for rep in range(repetition):
-         i = 0
-         for pcut in np.linspace(0,1,num=numint):
-            pmaxval[i,rep] = pmax(N=N,flip_ratio=c,pcut=pcut)
-            i += 1
-    loadmax = pmaxval[:,:]/N
-    load_mean = np.mean(loadmax,axis=1)
-    pmax_mean = np.mean(pmaxval[:,:],axis=1)
-    load_std = np.std(loadmax,axis=1)
-    ci = load_std * ((1+confidence)/2)/ 10
+
+    i = 0
+    load_mean = zeros(numint,float)
+    load_std = zeros(numint,float)
+    for pcut in np.linspace(0,1,num=numint):
+        [load_mean[i], load_mean_lb, load_mean_ub, pmax_mean, load_std[i]] = \
+            load_max(N=N, flip_ratio=c, pcut=pcut, tests=repetition, confidence=confidence)
+        i += 1
 
     fig = figure()
     ax1 = fig.add_subplot(111)
@@ -38,14 +35,15 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, repetition=10):
     ax1.set_ylim(0,1)
     ax1.yaxis.grid(True,linestyle='-',which='major',color=(0.2,0.2,0.2),alpha=0.5)
     ax1.set_axisbelow(True)
-    ax1.set_title('Mean maximal load over different P_cut (Q=%d)' % (repetition))
+    ax1.set_title('Mean maximal load over different P_cut (N=%d, Q=%d)' % (N, repetition))
     ax1.set_ylabel('mean maximal load')
     ax1.set_xlabel('P_cut')
-    savefig('../tex/img/plots/mean_max_load-%d.png' % repetition)
+    savefig('../tex/img/plots/exer3_mean_max_load-N%d-Q%d.png' % (N,repetition))
     close()
     
+    save_dump = [load_mean, load_mean_lb, load_mean_ub, pmax_mean, load_std]
     with open('../tex/img/plots/exercise3_pmaxval','w') as f:
-        pickle.dump(pmaxval,f)
+        pickle.dump(save_dump,f)
     f.closed
 
 if __name__=="__main__":
