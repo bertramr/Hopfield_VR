@@ -1,4 +1,4 @@
-from exercise2 import pmax, load_max
+from Hopfield import load_max
 import numpy as np
 from pylab import *
 import pickle

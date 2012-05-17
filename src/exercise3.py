@@ -1,5 +1,4 @@
-from Hopfield import HopfieldNetwork
-from exercise2 import pmax, load_max
+from Hopfield import HopfieldNetwork, pmax, load_max
 import numpy as np
 from pylab import *
 import pickle
@@ -23,10 +22,18 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, repetition=10):
     i = 0
     load_mean = zeros(numint,float)
     load_std = zeros(numint,float)
-    for pcut in np.linspace(0,1,num=numint):
-        [load_mean[i], load_mean_lb, load_mean_ub, pmax_mean, load_std[i]] = \
-            load_max(N=N, flip_ratio=c, pcut=pcut, tests=repetition, confidence=confidence)
-        i += 1
+    with open('../tex/img/plots/exercise3_table.tex','w') as fp:
+        fp.write('$p_{cut} & N & tests & C-level & maximal load & lower bound & upper bound & $P_{N,max}$\\\\ \n \\hline \\hline \n') 
+        for pcut in np.linspace(0,1,num=numint):
+            [load_mean[i], load_mean_lb, load_mean_ub, pmax_mean, load_std[i]] = \
+                load_max(N=N, flip_ratio=c, pcut=pcut, tests=repetition, confidence=confidence)
+            fp.write('%0.1f & %d & %d & %0.1f $\\\%$ & %0.2f & %0.2f & %0.2f & %0.2f \\\\ \n' % \
+                (pcut, N, repetition, confidence*100, \
+                load_mean[i], load_mean_lb, load_mean_ub, \
+                pmax_mean))
+            i += 1
+
+    fp.closed
 
     fig = figure()
     ax1 = fig.add_subplot(111)
@@ -42,6 +49,9 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, repetition=10):
     close()
     
     save_dump = [load_mean, load_mean_lb, load_mean_ub, pmax_mean, load_std]
+    
+        
+    
     with open('../tex/img/plots/exercise3_pmaxval','w') as f:
         pickle.dump(save_dump,f)
     f.closed

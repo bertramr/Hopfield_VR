@@ -196,3 +196,32 @@ class HopfieldNetwork:
         #print 'pattern recovered in %i time steps with final overlap %.3f and energy %.3f'%(i_fin,overlap[-1],energy[-1]) 
         return normalized_pixel_distance[-1]
 
+
+def pmax(N,flip_ratio,pcut, excitatory=-1):
+    h = HopfieldNetwork()
+    p=1
+    meanerror = 0
+    while meanerror <= 0.02:
+        error=zeros((1,p),float)
+        for r in range(p):
+            error[0,r]=(h.run(N=N, P=p+1, mu=r, flip_ratio=flip_ratio, \
+                pcut=pcut, bPlot=False, excitatory=excitatory))
+        meanerror=np.mean(error[0,:])
+        p=p+1
+        print '%d: %.4f' %( p , meanerror)
+    return p-1
+
+def load_max(N=200,flip_ratio=0.1, pcut=0, tests=10, confidence=0.95, excitatory=-1):
+    pmaxval=zeros((1,tests),float)
+    for i in range(tests):
+        pmaxval[0,i]=pmax(N=N, flip_ratio=flip_ratio, pcut=pcut, \
+            excitatory=excitatory)
+    loadmax=pmaxval[0,:]/N
+    load_mean=np.mean(loadmax)
+    pmax_mean=np.mean(pmaxval[0,:])
+    load_std=np.std(loadmax)
+    ci = load_std * ((1+confidence)/2)/ tests
+
+    out = [load_mean, load_mean - ci, load_mean + ci, pmax_mean, load_std]
+    return out
+
