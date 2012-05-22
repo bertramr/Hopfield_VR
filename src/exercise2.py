@@ -14,8 +14,6 @@ def exercise2(N_lst=(100, 250, 500), tests=10, confidence=0.95):
     with open('../tex/dat/ex2-table-N%d-Q%d-C%d.tex' % 
         (N_lst[-1], tests , confidence*100),'w') as fp:
         fp.write(
-            '\\begin{table}[H] \n'
-            '\\centering \n'
             '\\begin{tabular}{|l|l|l|l|l|l|l|} \n'
             '\\hline \n'
             'N & tests & C-level & maximal load & lower bound & '
@@ -35,7 +33,6 @@ def exercise2(N_lst=(100, 250, 500), tests=10, confidence=0.95):
         fp.write(
             '\\hline \n'
             '\\end{tabular} \n'
-            '\\end{table} \n'
             )
     fp.closed
 

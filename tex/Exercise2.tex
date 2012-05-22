@@ -9,6 +9,32 @@ Set c=0.1. Calculate $\alpha_{N,max}$ for at least 10 network realizations and s
 
 \paragraph*{}
 
+Our results for $P_{N,max}$, $\alpha_{N,max}$ are shown in table \ref{tbl:exercise2_results}.
 
+\begin{table}[H] 
+\centering 
 \input{dat/ex2-table-N500-Q10-C95}
+\label{tbl:exercise2_results}
+\end{table} 
 
+In the literature (\citep{Hertz1991}) we find table \ref{tbl:exercise2_lit_value}.
+
+\begin{table}[H] 
+\centering 
+\begin{tabular}{|l|l|}
+\hline
+$P_{error}$ & $p_{max}/N$ \\ \hline \hline
+0.001 & 0.105 \\
+0.0036 & 0.138 \\
+0.01 & 0.185 \\
+0.05 & 0.37 \\
+0.1 & 0.61 \\
+\hline
+\end{tabular}
+\label{tbl:exercise2_lit_value}
+\end{table} 
+
+%p_max = 4.9477160735 * P_error + 0.1187211869 
+% P_error = 0.02 : p_max = 0.22
+
+Based on a linear expression this would mean $p_{max} = 0.22$. Therefore our values are very low. Nearly the half.

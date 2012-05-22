@@ -47,6 +47,7 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, tests=10):
     ax1 = fig.add_subplot(111)
     lp = errorbar(np.linspace(0,1,num=numint),load_mean,load_std)
     
+    axhline(y=0.128/2,linewidth=1, color='r')
     ax1.set_ylim(0,0.5)
     ax1.yaxis.grid(True, linestyle='-', which='major', 
         color=(0.2,0.2,0.2), alpha=0.5)

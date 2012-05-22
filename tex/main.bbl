@@ -1,4 +1,9 @@
-\begin{thebibliography}{Pol02}
+\begin{thebibliography}{HKP91}
+
+\bibitem[HKP91]{Hertz1991}
+John Hertz, Anders Krogh, and Richard~G. Palmer.
+\newblock Introduction to the theory of neural computation.
+\newblock {\em Addison-Wesley, Redwood City CA}, 1991.
 
 \bibitem[Pol02]{Polk:2002fk}
 Thad~A Polk.
