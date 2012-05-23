@@ -1,14 +1,25 @@
-\documentclass[paper=a4, notitlepage]{article}
+\documentclass[a4paper, notitlepage]{article}
 \input{packages}
 
-\lstset{numbers=left, numberstyle=\tiny,numbersep=5pt} 
-\lstset{language=mathematica}
 %\geometry{left=2.0cm, right=2.0cm, top=3.0cm, bottom=3.0cm}
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 \parindent0mm
 
 
 \input{commands}
+
+\lstset{numbers=left, 
+		numberstyle=\tiny, 
+		basicstyle=\footnotesize,
+		numbersep=5pt,
+		language=Python,
+		keywordstyle=\color{blue},          % keyword style
+  		commentstyle=\color{dkgreen},       % comment style
+  		stringstyle=\color{mauve},         % string literal style
+		} 
+		
+\lstset{extendedchars=\true}
+\lstset{inputencoding=utf8}
 
 \title{Miniproject: Robustness of storage capacity in more realistic Hopfield networks}
 \author{Reinhold Bertram \\ 
@@ -23,12 +34,20 @@ Vince Moens \\
 }
 \date{\today}
 
+\begin{filecontents}{ex2_lit_data}
+#Perror 	pmax/N
+0.001	0.105
+0.0036	0.138
+0.01		0.185
+0.05		0.37
+0.1		0.61
+\end{filecontents}
 
 \begin{document}
 
 \maketitle
 \thispagestyle{empty}
-\vspace*{1.5 cm}
+\vspace*{3 cm}
 
 \input{Abstract}
 
@@ -43,14 +62,20 @@ Vince Moens \\
 \newpage
 
 \input{Introduction}
-\input{Question1}
+\input{Exercise1}
+\input{Exercise2}
+\input{Exercise3}
+\input{Exercise4}
 
 \newpage
 
 \nocite*{}
+%\addcontentsline{toc}{section}{References}
 \bibliographystyle{alpha}
 \bibliography{bibliography}
-\addcontentsline{toc}{chapter}{Bibliography}
 
+\newpage
+
+%\input{Appendix}
 
 \end{document}

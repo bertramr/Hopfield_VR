@@ -16,8 +16,8 @@ def exercise2(N_lst=(100, 250, 500), tests=10, confidence=0.95):
         fp.write(
             '\\begin{tabular}{|l|l|l|l|l|l|l|} \n'
             '\\hline \n'
-            'N & tests & C-level & maximal load & lower bound & '
-            'upper bound & $P_{N,max}$\\\\ \n'
+            'N & tests & C-level & $\alpha_{N,max}$ &  $\alpha_{N,max}+CI$ & '
+            '$\alpha_{N,max}-CI$ & $P_{N,max}$\\\\ \n'
             ' \\hline \\hline \n'
             ) 
         for N in N_lst:
