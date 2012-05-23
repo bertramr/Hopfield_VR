@@ -1,8 +1,17 @@
 \section{Appendix}
-
+\subsection{Code of Hopfield Network}
+\label{ssec: Hopfield Network}
 \lstinputlisting[frame=single,caption=hopfield.py]{../src/hopfield.py}
+\newpage
+\subsection{Code of exercise 1:}
 \lstinputlisting[frame=single,caption=exercise1\_1.py]{../src/exercise1_1.py}
 \lstinputlisting[frame=single,caption=exercise1\_3.py]{../src/exercise1_3.py}
+\newpage
+\subsection{Code of exercise 2:}
 \lstinputlisting[frame=single,caption=exercise2.py]{../src/exercise2.py}
+\newpage
+\subsection{Code of exercise 3:}
 \lstinputlisting[frame=single,caption=exercise3.py]{../src/exercise3.py}
+\newpage
+\subsection{Code of exercise 4:}
 \lstinputlisting[frame=single,caption=exercise4.py]{../src/exercise4.py}

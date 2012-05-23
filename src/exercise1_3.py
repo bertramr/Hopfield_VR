@@ -15,7 +15,7 @@ network with a mean retrieval error of less than 2%?
 from pylab import *
 from hopfield import HopfieldNetwork
 
-def exercise1_3(N=200,P=50,tests=50):
+def exercise1_3(N=200,P=50,tests=100):
     print "Exercise 1.3:"
     h = HopfieldNetwork()
     error = zeros((P,tests),float)
@@ -32,7 +32,7 @@ def exercise1_3(N=200,P=50,tests=50):
         
     fig = figure()
     ax1 = fig.add_subplot(111)
-    lp = errorbar(range(1,P+1),meanvalues,stdev)
+    lp = errorbar(range(1,P+1),meanvalues,stdev,color='g')
     bp = boxplot(transpose(error))
     axhline(y=0.02,linewidth=1, color='r')
     xticks(arange(0,P+1,P/10))
