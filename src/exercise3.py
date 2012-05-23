@@ -42,19 +42,21 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, tests=10):
             i += 1
 
     fp.closed
+    
+    alpha_null = 0.128    
 
     fig = figure()
     ax1 = fig.add_subplot(111)
-    lp = errorbar(np.linspace(0,1,num=numint),load_mean,load_std)
+    lp = errorbar(np.linspace(0,1,num=numint),load_mean/alpha_null,load_std/alpha_null)
     
-    axhline(y=0.128/2,linewidth=1, color='r')
-    ax1.set_ylim(0,0.5)
+    axhline(y=0.5,linewidth=1, color='r')
+    ax1.set_ylim(0,1)
     ax1.yaxis.grid(True, linestyle='-', which='major', 
         color=(0.2,0.2,0.2), alpha=0.5)
     ax1.set_axisbelow(True)
     ax1.set_title('Mean maximal load over different P_cut (N=%d, Q=%d)' % 
         (N, tests))
-    ax1.set_ylabel('mean maximal load')
+    ax1.set_ylabel('mean maximal load (alpha_max/alpha_null)')
     ax1.set_xlabel('P_cut')
     savefig('../tex/dat/ex3-mean_max_load-N%d-Q%d-C%d.png' % 
         (N, tests , confidence*100))

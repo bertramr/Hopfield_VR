@@ -81,9 +81,9 @@ class HopfieldNetwork:
         self.excitatory_nodes = flip[0:idx_exc]
         self.inhibitory_nodes = flip[idx_exc+1:]
         for i in self.excitatory_nodes:
-            self.weight[i, self.weight[i,:] > 0 ] = 0
-        for i in self.inhibitory_nodes:
             self.weight[i, self.weight[i,:] < 0 ] = 0
+        for i in self.inhibitory_nodes:
+            self.weight[i, self.weight[i,:] > 0 ] = 0
 
     def run(self, N=200, P=5, ratio=0.5, mu=0,
             flip_ratio=0.2, pcut=0, excitatory=-1,
