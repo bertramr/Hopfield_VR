@@ -118,6 +118,12 @@ class HopfieldNetwork:
             if sum(abs(x_old-self.x))==0:
                 break
             x_old = copy(self.x)
+            
+            if i == TMAX-1:
+                print 'Did not converge in time ' \
+                    '(TMAX=%d , pixel_distance: %0.1f%%).' % \
+                    (TMAX, normalized_pixel_distance[-1]*100)
+        
         if bPlot:
             # prepare the figure
             figure(num=None, figsize=(7, 8), 
