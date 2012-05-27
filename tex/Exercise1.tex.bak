@@ -27,7 +27,8 @@ Implement the Hopfield network as described above. Shortly comment on your imple
 The Hopfield Network works by taking one of the $P$ patterns stored in the system with the index $\mu$ and flipping a certain percentage \texttt{flip$\_$ratio} of its pixels. The resulting pattern is then used as the pattern that is to be tested and the dynamics are run on that pattern. 
 In order to execute the source code of the Hopfield Network, one should first execute \texttt{h=HopfieldNetwork()} in order  to initialize the class. Then one can execute the class using \texttt{h.run()}. The  options of the \texttt{run} function are \texttt{N} (number of pixels), \texttt{P}  (number of patterns), \texttt{ratio} (fraction of $\xi_i=1$ in patterns), \texttt{mu} (pattern  chosen for modification and subsequent retrieval), \texttt{flip$\_$ratio} (fraction of pixels that are to be  changed when creating the retrieval pattern), \texttt{pcut} (the probability that a directed weight $\omega_{ij}$ is cut and set to 0), \texttt{excitatory} (sets disallowed connection weights in standard Hebbian to 0),\texttt{bPlot} (whether  a plot should be created) and \texttt{bDebug} (whether debugging tools should be turned  on).
 
-In figure \ref{fig: Question 1.1} the dynamics needed to retrieve the pattern with the above given settings is shown. The image shows the energy, the overlap and the normalized pixel distance which is explained in section \ref{ssec: Normalized Pixel Distance}. Not even one complete time-step was necessary in order to retrieve the pattern with a 100$\%$ overlap. During the retrieval, the energy function fell strongly, showing that we were approaching a stable condition. 
+In figure \ref{fig: Question 1.1} the dynamics needed to retrieve the pattern with the above given settings are shown. The image shows the energy, the overlap and the normalized pixel distance which is explained in section \ref{ssec: Normalized Pixel Distance}. Not even one complete time-step was necessary in order to retrieve the pattern with a 100$\%$ overlap. During the retrieval, the energy function fell strongly, showing that we were approaching a stable condition. 
+\paragraph*{}
 At first, the script only ran very slowly, this is because we did not have a lot of  experience with python and thus used to for loops to do matrix multiplications. After  implementing the \texttt{numpy.dot} function, the script ran incredibly much faster. 
 
 \subsection{1.2 Normalized Pixel Distance}
@@ -60,15 +61,15 @@ Set N = 200 and c = 0.1. Plot the mean retrieval error of a randomly chosen patt
 \begin{figure}
   \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.9\textwidth]{dat/ex1_3-error_avg-N200-P50-Q100.png}
+    \includegraphics[width=0.9\textwidth]{dat/ex1_3-error_avg-N200-P50-Q500.png}
   \end{center}
   \vspace{-20pt}
-  \caption{Exercise 1.3: Mean retrieval error averaged over 100 different network realizations.}
+  \caption{Exercise 1.3: Mean retrieval error averaged over 500 different network realizations.}
   \label{fig: Question 1.3}
   \vspace{-10pt}
 \end{figure}
 
 \paragraph*{}
 
-Figure \ref{fig: Question 1.3} shows a plot of the mean retrieval error with respect to the dictionary size P averaged over 100 network iterations. The error remains approximately 0 up to a dictionary size of $P=20$. IT then starts mounting quickly and already reaches 25$\%$ at $P=50$. The horizontal red line indicates the 2$\%$ threshold. It is reached at $P=26$. In the plot, the blue box depicts the data between the lower and the upper quartile of errors, the extremities of the dotted line depict the end of the data and the blue crosses indicate runaway values. The black error plot indicates the $1-\sigma$ interval and the red line in the boxes indicates the median value of the errors. The black plot is the graph of the mean retrieval error. 
+Figure \ref{fig: Question 1.3} shows a plot of the mean retrieval error with respect to the dictionary size P averaged over 500 network iterations. The error remains approximately 0 up to a dictionary size of $P=20$. It then starts mounting quickly and already reaches 25$\%$ at $P=50$. The horizontal red line indicates the 2$\%$ threshold. It is reached at $P=26$. In the plot, the blue box depicts the data between the lower and the upper quartile of errors, the extremities of the dotted line depict the end of the data and the blue crosses indicate runaway values. The black error plot indicates the $1\sigma$ interval and the red line in the boxes indicates the median value of the errors. The black plot is the graph of the mean retrieval error. 
 

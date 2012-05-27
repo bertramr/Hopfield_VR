@@ -13,17 +13,28 @@ Note: Bare in mind that the convergence assertion of Question 1.1 does not neces
 
 
 
-\begin{wrapfigure}{r}{0.5\textwidth}
+\begin{figure}[H]
   \vspace{-20pt}
   \begin{center}
-    \includegraphics[width=0.6\textwidth]{dat/ex3-mean_max_load-N200-Q10-C95}
+    \includegraphics[width=0.6\textwidth]{dat/ex3-mean_max_load-N200-Q50-C95}
   \end{center}
   \vspace{-20pt}
   \caption{Exercise 3: Maximal load $\alpha_{N,max}$ averaged over 10 repetitions for varying $p_{cut}$ }
   \label{fig:exercise3}
   \vspace{-10pt}
-\end{wrapfigure}
+\end{figure}
 
-Figure \ref{fig:exercise3} shows the the $\alpha_{N,max}$ over varying $p_{cut}$.
+Figure \ref{fig:exercise3} shows the the $\alpha_{N,max}$ over varying $p_{cut}$. Table 
 
-With increasing $p_{cut}$ the maximal load decreases. At $p_{cut} = xxx$ the maximal load drops below $50\%$ of the value estimated in exercise 2.
+\begin{table}[H] 
+\centering 
+\begin{tabular}{|l|l|l|l|l|l|l|l|} 
+\hline 
+\input{dat/ex3-table-N200-Q10-C95.tex}	
+\hline
+\end{tabular}
+\label{tbl:exercise3_CI}
+\caption{Table giving the confidence intervals for all data points in figure \ref{fig:exercise3}.}
+\end{table} 
+
+With increasing $p_{cut}$ the maximal load decreases. At $p_{cut} = 0.6$ the maximal load drops below $50\%$ of the value estimated in exercise 2. The confidence intervals are listed in table \ref{tbl:exercise3_CI}

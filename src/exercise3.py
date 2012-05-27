@@ -23,11 +23,10 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, tests=10):
     with open('../tex/dat/ex3-table-N%d-Q%d-C%d.tex' % 
         (N, tests , confidence*100),'w') as fp:
         fp.write(
-            '\\begin{table}[H] \n'
-            '\\centering \n'
+            
             '\\begin{tabular}{|l|l|l|l|l|l|l|l|} \n'
             '\\hline \n'
-            '$P_{cut} & N & tests & C-level & maximal load & lower bound & '
+            '$P_{cut}$ & N & tests & C-level & maximal load & lower bound & '
             'upper bound & $P_{N,max}$\\\\ \n'
             ' \\hline \\hline \n'
             ) 
@@ -40,6 +39,9 @@ def exercise3(N = 200, c= 0.1, confidence=0.95, numint = 11, tests=10):
                 (pcut, N, tests, confidence*100, 
                 load_mean[i], load_mean_lb, load_mean_ub, pmax_mean))
             i += 1
+        fp.write('\hline'
+                 '\end{tabular}'
+                 )
 
     fp.closed
     

@@ -1,4 +1,4 @@
-\section{Exercise 2: Capacity estimation}
+	\section{Exercise 2: Capacity estimation}
 
 \begin{itshape}
 \small
@@ -15,7 +15,7 @@ The results for $P_{N,max}$, $\alpha_{N,max}$ are shown in table \ref{tbl:exerci
 \centering 
 \input{dat/ex2-table-N500-Q10-C95}
 \label{tbl:exercise2_results}
-\caption{The storage capacity $P_{N,max}$ and the maximal load $\alpha_{N,max}$ for 3 different pattern sizes N=(100,200,250).}
+\caption{The storage capacity $P_{N,max}$ and the maximal load $\alpha_{N,max}$ for 3 different pattern sizes N=(100,250,500).}
 \end{table} 
 
 \begin{figure}[htb] 
@@ -34,9 +34,9 @@ $P_{error}$ & $\alpha_{N,max}$ \\ \hline \hline
 \end{tabular}
 \label{tbl:exercise2_lit_value}
 \end{minipage}
-\begin{minipage}[c]{0.55\textwidth}
+\begin{minipage}[c]{0.69\textwidth}
 \centering
-\includegraphics[width=0.55\textwidth]{dat/theovalues.pdf}
+\includegraphics[width=0.69\textwidth]{dat/theovalues.pdf}
 \end{minipage}
 \caption{ The table on the left shows the literary values found in \citep{Hertz1991} and the figure on the right shows that $\alpha_{max}$ changes linearly in the region of $P_{error}=0.02$.}
 \end{figure}
@@ -46,4 +46,4 @@ $P_{error}$ & $\alpha_{N,max}$ \\ \hline \hline
 %p_max = 4.9477160735 * P_error + 0.1187211869 
 % P_error = 0.02 : p_max = 0.22
 
-Since the maximal load changes linearly around $P_{error}=0.02$ we can make a linear extrapolation and find that Based on a linear expression this would mean $\alpha_{N,max} = 0.22$ for $P_{error}=0.02$. Our values are  CONTINUE
+Since the maximal load changes linearly around $P_{error}=0.02$ we can make a linear extrapolation and find that based on a linear expression this would mean $\alpha_{N,max} = 0.22$ for $P_{error}=0.02$. Our values are thus about half the literary values. It is to be expected that our values would be smaller than the literary values because the literary values are only upper bounds. This is because the calculation used for the literary values only considers the initial stability of the patterns. Of course as bits are flipped, these stabilities change, and one flipped bit can cause many other bits to flip and thereby create a sort of avalanche of bit flipping \citep[P. 19]{Hertz1991}. 
