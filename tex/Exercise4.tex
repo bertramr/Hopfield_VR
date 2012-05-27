@@ -7,7 +7,7 @@ Set $c=0.1$, $N = 200$ and turn off random asymmetry ($p_{cut} = 0$). Set $E \in
 For a given $E$, randomly split the network into an excitatory and an inhibitory subpopulation (of sizes $E \cdot N$ and $(1 - E) \cdot N$ respectively). Now enforce Dale's law on the network connectivity by setting '"disallowed"` connection weights in the standard Hebbian weight matrix Eq. 1 to zero.
 
 What percentage of the directed connections do you expect to be cut for $E = \frac{1}{2}$
-As in Ex. 2 calculate and plot the mean $\alpha_{N,max}$ for varying E with error bars (at least 10 repetitions). Interpret the results and compare the value for E = 1 to your result from Ex. 3.
+As in Ex. 2 calculate and plot the mean $\alpha_{N,max}$ for varying E with error bars (at least 10 repetitions). Interpret the results and compare the value for E$ = 1$ to your result from Ex. 3.
 \end{itshape}
 
 \paragraph*{}
@@ -20,10 +20,12 @@ As a reminder we restate Dale's law; \textit{for each neuron, synaptic connectio
   \end{center}
   \vspace{-20pt}
   \caption{Exercise 4: Mean maximal load over different E}
-  \label{fig: Question 1.3}
+  \label{fig: exercise 4}
 \end{figure}
 
 \paragraph*{}
+When E increases from 0 to 0.7, the mean maximal load decreases. After 0.7 it flattens out and then starts increasing again just before E $= 1$. E $=1$ means that all nodes are excitatory and therefore all weights positive as can be deduced from equation \ref{eq: weights}. As shown in figure \ref{fig exercise 4}, we expect the mean maximal load to decrease as E increases. 
+
 As for all $E$ so for $E = \frac{1}{2}$ we expect half the nodes to be cut.
 
 
